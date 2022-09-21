@@ -1,19 +1,24 @@
-import { usePointLoc } from "hooks/usePointLoc";
 import { useWindowSize } from "hooks/useWindowResize";
 import { KonvaEventObject } from "konva/lib/Node";
-import { Ellipse, Layer, Line, Rect, Stage, Text } from "react-konva";
+import { RectConfig } from "konva/lib/shapes/Rect";
+import { useState } from "react";
+import { Layer, Stage } from "react-konva";
 import { CanvasData, CanvasItem } from "types/datatypes";
-import { CanvasImage } from "./CanvasImage";
+import { TImage } from "./Shapes/TImage";
+import { TRect } from "./Shapes/TRect";
+import { TText } from "./Shapes/TText";
 
 export const Canvas = (props: {
   state: CanvasData;
   onChange: (state: CanvasData) => void;
+  selectedId?: string;
+  onSelect: (id?: string) => void;
 }) => {
-  const { state, onChange } = props;
+  const { state, onChange, selectedId, onSelect } = props;
 
   const windowSize = useWindowSize();
 
-  const onDragEnd = (e: KonvaEventObject<DragEvent>, i: CanvasItem) => {
+  const onChangeData = (value: any, i: CanvasItem) => {
     const { items, ...rest } = state;
     const itemsCopy = items.slice();
     const index = items.findIndex((s) => s.id === i.id);
@@ -23,11 +28,25 @@ export const Canvas = (props: {
 
       itemsCopy[index] = {
         ...item,
-        data: { ...item.data, x: e.target.x(), y: e.target.y() },
+        data: value,
       };
 
       onChange({ items: itemsCopy, ...rest });
     }
+  };
+
+  const checkDeselect = (
+    e: KonvaEventObject<MouseEvent> | KonvaEventObject<TouchEvent>
+  ) => {
+    // deselect when clicked on empty area
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      onSelect(undefined);
+    }
+  };
+
+  const checkSelect = (item: CanvasItem) => {
+    onSelect(item.id);
   };
 
   return (
@@ -35,58 +54,49 @@ export const Canvas = (props: {
       width={windowSize.width}
       height={windowSize.height}
       globalCompositeOperation="destination-over"
+      onMouseDown={checkDeselect}
+      onTouchStart={checkDeselect}
     >
       <Layer>
         {state.items.map((i) => {
           switch (i.type) {
             case "image":
               return (
-                <CanvasImage
+                <TImage
                   url={i.data.src}
                   {...i.data}
-                  draggable
-                  onDragEnd={(e: KonvaEventObject<DragEvent>) => {
-                    onDragEnd(e, i);
+                  isSelected={i.id === selectedId}
+                  onSelect={() => {
+                    checkSelect(i);
                   }}
-                />
-              );
-            case "text":
-              return (
-                <Text
-                  {...i.data}
-                  draggable
-                  onDragEnd={(e) => {
-                    onDragEnd(e, i);
+                  onChange={(props) => {
+                    onChangeData(props, i);
                   }}
                 />
               );
             case "rect":
               return (
-                <Rect
+                <TRect
                   {...i.data}
-                  draggable
-                  onDragEnd={(e) => {
-                    onDragEnd(e, i);
+                  isSelected={i.id === selectedId}
+                  onSelect={() => {
+                    checkSelect(i);
+                  }}
+                  onChange={(props) => {
+                    onChangeData(props, i);
                   }}
                 />
               );
-            case "ellipse":
+            case "text":
               return (
-                <Ellipse
+                <TText
                   {...i.data}
-                  draggable
-                  onDragEnd={(e) => {
-                    onDragEnd(e, i);
+                  isSelected={i.id === selectedId}
+                  onSelect={() => {
+                    checkSelect(i);
                   }}
-                />
-              );
-            case "line":
-              return (
-                <Line
-                  {...i.data}
-                  draggable
-                  onDragEnd={(e) => {
-                    onDragEnd(e, i);
+                  onChange={(props) => {
+                    onChangeData(props, i);
                   }}
                 />
               );

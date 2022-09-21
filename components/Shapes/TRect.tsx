@@ -1,0 +1,65 @@
+import { RectConfig } from "konva/lib/shapes/Rect";
+import React, { Fragment, useEffect, useRef } from "react";
+import { Rect, Transformer } from "react-konva";
+import { defaultTransformSettings } from "./settings";
+
+export const TRect = (
+  props: RectConfig & {
+    isSelected: boolean;
+    onChange: (value: RectConfig) => void;
+    onSelect: () => void;
+  }
+) => {
+  const { isSelected, onChange, onSelect, ...shapeProps } = props;
+  const shapeRef = useRef<any>(null);
+  const trRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (isSelected && trRef.current) {
+      // we need to attach transformer manually
+      trRef.current.nodes([shapeRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [isSelected]);
+
+  return (
+    <Fragment>
+      <Rect
+        ref={shapeRef}
+        {...shapeProps}
+        draggable
+        onTap={onSelect}
+        onClick={onSelect}
+        onDragStart={onSelect}
+        onDragEnd={(e) => {
+          onChange({
+            ...shapeProps,
+            x: e.target.x(),
+            y: e.target.y(),
+          });
+        }}
+        onTransformEnd={() => {
+          // transformer is changing scale of the node
+          // and NOT its width or height
+          // but in the store we have only width and height
+          // to match the data better we will reset scale on transform end
+          const node = shapeRef.current;
+          const scaleX = node.scaleX();
+          const scaleY = node.scaleY();
+
+          // we will reset it back
+          node.scaleX(1);
+          node.scaleY(1);
+          onChange({
+            ...shapeProps,
+            x: node.x(),
+            y: node.y(),
+            width: node.width() * scaleX,
+            height: node.height() * scaleY,
+          });
+        }}
+      />
+      {isSelected && <Transformer ref={trRef} {...defaultTransformSettings} />}
+    </Fragment>
+  );
+};

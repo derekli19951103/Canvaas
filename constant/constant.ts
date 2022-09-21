@@ -1,3 +1,8 @@
+import { ArrowConfig } from "konva/lib/shapes/Arrow";
+import { EllipseConfig } from "konva/lib/shapes/Ellipse";
+import { LineConfig } from "konva/lib/shapes/Line";
+import { RectConfig } from "konva/lib/shapes/Rect";
+import { TextConfig } from "konva/lib/shapes/Text";
 import { CanvasItem } from "types/datatypes";
 
 export const shapes: CanvasItem[] = [
@@ -17,7 +22,11 @@ export const shapes: CanvasItem[] = [
       text: "GGGGGGiberrish",
       x: 10,
       y: 10,
-    },
+      fontSize: 20,
+      stroke: "blue",
+      strokeWidth: 0,
+      fill: "blue",
+    } as TextConfig,
   },
   {
     id: "3",
@@ -28,7 +37,7 @@ export const shapes: CanvasItem[] = [
       x: 100,
       y: 100,
       fill: "red",
-    },
+    } as RectConfig,
   },
   {
     id: "4",
@@ -39,26 +48,28 @@ export const shapes: CanvasItem[] = [
       x: 200,
       y: 200,
       fill: "black",
-    },
+    } as EllipseConfig,
   },
   {
     id: "5",
     type: "line",
     data: {
-      points: [0, 100],
+      points: [0, 0, 100, 100],
       x: 300,
       y: 300,
       stroke: "blue",
       strokeWidth: 10,
-    },
+    } as LineConfig,
   },
   {
-    id: "5",
+    id: "6",
     type: "arrow",
     data: {
-      points: [0, 100],
-      x: 100,
-      y: 100,
-    },
+      points: [0, 0, 100, 100],
+      x: 400,
+      y: 400,
+      stroke: "blue",
+      strokeWidth: 10,
+    } as ArrowConfig,
   },
 ];

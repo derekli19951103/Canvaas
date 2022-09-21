@@ -1,7 +1,9 @@
+const withAntdLess = require("next-plugin-antd-less");
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withAntdLess({
   reactStrictMode: true,
   swcMinify: true,
-}
+});
 
-module.exports = nextConfig
+module.exports = nextConfig;
