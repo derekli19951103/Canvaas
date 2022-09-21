@@ -1,37 +1,27 @@
 import type { NextPage } from "next";
-import { Canvas } from "components/Canvas";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import { shapes } from "constant/constant";
+import { CanvasData } from "types/datatypes";
 
-export interface CanvasData {
-  background: string;
-  items: {
-    type: string;
-    data: any;
-  }[];
-}
+const Canvas = dynamic(
+  () => import("components/Canvas").then((mod) => mod.Canvas),
+  { ssr: false }
+);
 
 const Home: NextPage = () => {
   const [state, setState] = useState<CanvasData>({
     background: "white",
-    items: [
-      {
-        type: "text",
-        data: {
-          content: "GGGGGGIiberrish",
-        },
-      },
-      {
-        type: "image",
-        data: {
-          src: "https://file-assets-prod.bspacesoft.com/files/R_photo/0/2022/8/8/18c19ad0420845e9a4c845f180f6a5d7/4569d7ea-99b1-4fdf-bc53-38d1c40c7ed2.jpg",
-        },
-      },
-    ],
+    items: shapes,
   });
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
 
   return (
     <div>
-      <Canvas state={state} onChange={console.log} />
+      <Canvas state={state} onChange={setState} />
     </div>
   );
 };
