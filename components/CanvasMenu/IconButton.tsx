@@ -5,8 +5,8 @@ export const IconButton = (props: HTMLAttributes<HTMLDivElement>) => {
   return (
     <div
       {...rest}
-      style={{ width: 40, height: 40, backgroundColor: "#F2F2F2", ...style }}
-      className="flex justify-center items-center rounded-md"
+      style={{ width: 40, height: 40, ...style }}
+      className="flex justify-center items-center rounded-md bg-zinc-200 hover:bg-zinc-300"
     >
       {children}
     </div>

@@ -1,8 +1,15 @@
 import { Button, InputNumber, Popover, Select, Space } from "antd";
 import { TextConfig } from "konva/lib/shapes/Text";
 import { CompactPicker } from "react-color";
+import { ColorBlock } from "./ColorBlock";
+import { IconButton } from "./IconButton";
 
 const FontFamilies = ["Calibri", "Roboto"];
+
+const range = (start: number, stop: number, step = 1) =>
+  Array(Math.ceil((stop - start) / step))
+    .fill(start)
+    .map((x, y) => x + y * step);
 
 export const TextMenu = (props: {
   value: TextConfig;
@@ -15,26 +22,17 @@ export const TextMenu = (props: {
         content={
           <CompactPicker
             onChange={(color) => {
-              onChange({ ...value, stroke: color.hex, fill: color.hex });
+              onChange({ ...value, fill: color.hex });
             }}
+            color={value.fill}
           />
         }
         trigger="click"
         placement="bottomLeft"
       >
-        <Button
-          icon={
-            <div
-              style={{
-                backgroundColor: value.fill,
-                width: 20,
-                height: 20,
-                margin: "0 5px",
-                borderRadius: 4,
-              }}
-            />
-          }
-        />
+        <IconButton>
+          <ColorBlock color={value.fill} />
+        </IconButton>
       </Popover>
 
       <Select
@@ -49,35 +47,55 @@ export const TextMenu = (props: {
         }}
       />
 
-      <InputNumber
+      <Select
+        options={range(10, 80, 2).map((f) => ({ value: f, label: f }))}
+        placeholder="Font Size"
         value={value.fontSize}
         onChange={(fontSize) => {
           onChange({
             ...value,
-            fontSize: fontSize as number,
+            fontSize: fontSize as unknown as number,
           });
         }}
       />
 
       <Button
-        type={
-          value.strokeWidth === value.fontSize! / 20 ? "primary" : "default"
-        }
+        type={value.fontStyle?.includes("bold") ? "primary" : "default"}
         onClick={() => {
+          let fontStyle = value.fontStyle;
+          if (fontStyle) {
+            switch (fontStyle) {
+              case "bold":
+                fontStyle = "noraml";
+                break;
+              case "italic":
+                fontStyle = "italic bold";
+                break;
+              case "italic bold":
+                fontStyle = "italic";
+                break;
+              case "normal":
+                fontStyle = "bold";
+                break;
+            }
+          } else {
+            fontStyle = "bold";
+          }
           onChange({
             ...value,
-            strokeWidth: value.fontSize! / 20,
+            fontStyle,
           });
         }}
       >
         <strong>Bold</strong>
       </Button>
+
       <Button
-        type={value.strokeWidth === 0 ? "primary" : "default"}
+        type={value.fontStyle === "normal" ? "primary" : "default"}
         onClick={() => {
           onChange({
             ...value,
-            strokeWidth: 0,
+            fontStyle: "normal",
           });
         }}
       >
@@ -95,6 +113,37 @@ export const TextMenu = (props: {
         }}
       >
         <div style={{ textDecoration: "underline" }}>Underlined</div>
+      </Button>
+
+      <Button
+        type={value.fontStyle?.includes("italic") ? "primary" : "default"}
+        onClick={() => {
+          let fontStyle = value.fontStyle;
+          if (fontStyle) {
+            switch (fontStyle) {
+              case "bold":
+                fontStyle = "italic bold";
+                break;
+              case "italic":
+                fontStyle = "normal";
+                break;
+              case "italic bold":
+                fontStyle = "bold";
+                break;
+              case "normal":
+                fontStyle = "italic";
+                break;
+            }
+          } else {
+            fontStyle = "italic";
+          }
+          onChange({
+            ...value,
+            fontStyle: fontStyle,
+          });
+        }}
+      >
+        <div className="italic">Italic</div>
       </Button>
     </Space>
   );

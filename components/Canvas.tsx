@@ -4,7 +4,10 @@ import { Layer, Stage } from "react-konva";
 import { CanvasData, CanvasItem } from "types/datatypes";
 import { TImage } from "./Shapes/TImage";
 import { TRect } from "./Shapes/TRect";
+import { TEllipse } from "./Shapes/TEllipse";
 import { TText } from "./Shapes/TText";
+import { TLine } from "./Shapes/TLine";
+import { TArrow } from "./Shapes/TArrow";
 
 export const Canvas = (props: {
   state: CanvasData;
@@ -89,6 +92,45 @@ export const Canvas = (props: {
             case "text":
               return (
                 <TText
+                  {...i.data}
+                  isSelected={i.id === selectedId}
+                  onSelect={() => {
+                    checkSelect(i);
+                  }}
+                  onChange={(props) => {
+                    onChangeData(props, i);
+                  }}
+                />
+              );
+            case "ellipse":
+              return (
+                <TEllipse
+                  {...i.data}
+                  isSelected={i.id === selectedId}
+                  onSelect={() => {
+                    checkSelect(i);
+                  }}
+                  onChange={(props) => {
+                    onChangeData(props, i);
+                  }}
+                />
+              );
+            case "line":
+              return (
+                <TLine
+                  {...i.data}
+                  isSelected={i.id === selectedId}
+                  onSelect={() => {
+                    checkSelect(i);
+                  }}
+                  onChange={(props) => {
+                    onChangeData(props, i);
+                  }}
+                />
+              );
+            case "arrow":
+              return (
+                <TArrow
                   {...i.data}
                   isSelected={i.id === selectedId}
                   onSelect={() => {

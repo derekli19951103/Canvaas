@@ -7,6 +7,10 @@ import { CompactPicker } from "react-color";
 import { ShapeMenu } from "./ShapeMenu";
 import { RectMenu } from "./RectMenu";
 import { IconButton } from "./IconButton";
+import { ColorBlock } from "./ColorBlock";
+import { EllipseMenu } from "./EllipseMenu";
+import { LineMenu } from "./LineMenu";
+import { ArrowMenu } from "./ArrowMenu";
 
 export const CanvasMenu = (props: {
   state: CanvasData;
@@ -47,26 +51,18 @@ export const CanvasMenu = (props: {
                 onChange={(color) => {
                   onChange({ ...state, background: color.hex });
                 }}
+                color={state.background}
               />
             }
             trigger="click"
             placement="bottomLeft"
           >
-            <IconButton>
-              <div
-                style={{
-                  backgroundColor: state.background,
-                  width: 20,
-                  height: 20,
-                }}
-                className="rounded-md"
-              />
+            <IconButton style={{ width: 160 }}>
+              <ColorBlock color={state.background} />{" "}
+              <span className="ml-2 select-none">Background color</span>
             </IconButton>
           </Popover>
           <ShapeMenu state={state} onChange={onChange} />
-          <Button icon={<CgFormatText size="25px" />} />
-          <Button icon={<CgFormatText size="25px" />} />
-          <Button icon={<CgFormatText size="25px" />} />
         </Space>
       </Col>
 
@@ -81,6 +77,30 @@ export const CanvasMenu = (props: {
         )}
         {selectedItem?.type === "rect" && (
           <RectMenu
+            value={selectedItem.data}
+            onChange={(value) => {
+              onChangeData(value, selectedItem);
+            }}
+          />
+        )}
+        {selectedItem?.type === "ellipse" && (
+          <EllipseMenu
+            value={selectedItem.data}
+            onChange={(value) => {
+              onChangeData(value, selectedItem);
+            }}
+          />
+        )}
+        {selectedItem?.type === "line" && (
+          <LineMenu
+            value={selectedItem.data}
+            onChange={(value) => {
+              onChangeData(value, selectedItem);
+            }}
+          />
+        )}
+        {selectedItem?.type === "arrow" && (
+          <ArrowMenu
             value={selectedItem.data}
             onChange={(value) => {
               onChangeData(value, selectedItem);

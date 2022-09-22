@@ -1,19 +1,16 @@
-import { ImageConfig } from "konva/lib/shapes/Image";
+import { EllipseConfig } from "konva/lib/shapes/Ellipse";
 import { Fragment, useEffect, useRef } from "react";
-import { Image, Transformer } from "react-konva";
-import useImage from "use-image";
+import { Ellipse, Transformer } from "react-konva";
 import { defaultTransformSettings } from "./settings";
 
-export const TImage = (
-  props: Omit<ImageConfig, "image"> & {
-    url: string;
+export const TEllipse = (
+  props: EllipseConfig & {
     isSelected: boolean;
-    onChange: (value: Omit<ImageConfig, "image">) => void;
+    onChange: (value: EllipseConfig) => void;
     onSelect: () => void;
   }
 ) => {
-  const { url, isSelected, onChange, onSelect, ...shapeProps } = props;
-  const [image] = useImage(url);
+  const { isSelected, onChange, onSelect, ...shapeProps } = props;
   const shapeRef = useRef<any>(null);
   const trRef = useRef<any>(null);
 
@@ -27,11 +24,11 @@ export const TImage = (
 
   return (
     <Fragment>
-      <Image
+      <Ellipse
         ref={shapeRef}
-        image={image}
         {...shapeProps}
         draggable
+        strokeScaleEnabled={false}
         onTap={onSelect}
         onClick={onSelect}
         onDragStart={onSelect}

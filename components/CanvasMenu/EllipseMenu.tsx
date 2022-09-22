@@ -1,12 +1,12 @@
-import { Space, Popover, Button, Select, InputNumber } from "antd";
-import { RectConfig } from "konva/lib/shapes/Rect";
+import { InputNumber, Popover, Space } from "antd";
+import { EllipseConfig } from "konva/lib/shapes/Ellipse";
 import { CompactPicker } from "react-color";
 import { ColorBlock } from "./ColorBlock";
 import { IconButton } from "./IconButton";
 
-export const RectMenu = (props: {
-  value: RectConfig;
-  onChange: (value: RectConfig) => void;
+export const EllipseMenu = (props: {
+  value: EllipseConfig;
+  onChange: (value: EllipseConfig) => void;
 }) => {
   const { value, onChange } = props;
 
@@ -53,20 +53,6 @@ export const RectMenu = (props: {
             onChange({
               ...value,
               strokeWidth: strokeWidth as number,
-            });
-          }}
-          size="small"
-        />
-      </div>
-
-      <div>
-        <div className="text-xs text-gray-400">Border Radius:</div>
-        <InputNumber
-          value={value.cornerRadius as number}
-          onChange={(cornerRadius) => {
-            onChange({
-              ...value,
-              cornerRadius: cornerRadius as number,
             });
           }}
           size="small"

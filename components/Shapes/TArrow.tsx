@@ -1,19 +1,16 @@
-import { ImageConfig } from "konva/lib/shapes/Image";
+import { ArrowConfig } from "konva/lib/shapes/Arrow";
 import { Fragment, useEffect, useRef } from "react";
-import { Image, Transformer } from "react-konva";
-import useImage from "use-image";
+import { Arrow, Transformer } from "react-konva";
 import { defaultTransformSettings } from "./settings";
 
-export const TImage = (
-  props: Omit<ImageConfig, "image"> & {
-    url: string;
+export const TArrow = (
+  props: ArrowConfig & {
     isSelected: boolean;
-    onChange: (value: Omit<ImageConfig, "image">) => void;
+    onChange: (value: ArrowConfig) => void;
     onSelect: () => void;
   }
 ) => {
-  const { url, isSelected, onChange, onSelect, ...shapeProps } = props;
-  const [image] = useImage(url);
+  const { isSelected, onChange, onSelect, ...shapeProps } = props;
   const shapeRef = useRef<any>(null);
   const trRef = useRef<any>(null);
 
@@ -27,9 +24,8 @@ export const TImage = (
 
   return (
     <Fragment>
-      <Image
+      <Arrow
         ref={shapeRef}
-        image={image}
         {...shapeProps}
         draggable
         onTap={onSelect}
@@ -43,28 +39,26 @@ export const TImage = (
           });
         }}
         onTransformEnd={(transform) => {
-          // transformer is changing scale of the node
-          // and NOT its width or height
-          // but in the store we have only width and height
-          // to match the data better we will reset scale on transform end
           const node = shapeRef.current;
           const scaleX = transform.target.scaleX();
-          const scaleY = transform.target.scaleY();
 
-          // we will reset it back
-          node.scaleX(1);
-          node.scaleY(1);
           onChange({
             ...shapeProps,
             x: node.x(),
             y: node.y(),
             width: node.width() * scaleX,
-            height: node.height() * scaleY,
+            scaleX,
             rotation: transform.target.rotation(),
           });
         }}
       />
-      {isSelected && <Transformer ref={trRef} {...defaultTransformSettings} />}
+      {isSelected && (
+        <Transformer
+          ref={trRef}
+          {...defaultTransformSettings}
+          enabledAnchors={["middle-left", "middle-right"]}
+        />
+      )}
     </Fragment>
   );
 };

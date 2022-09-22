@@ -12,7 +12,7 @@ const Canvas = dynamic(
 
 const Home: NextPage = () => {
   const [state, setState] = useState<CanvasData>({
-    background: "silver",
+    background: "#F2F2F2",
     items: shapes,
   });
   const [selectedId, setSelectId] = useState<string>();

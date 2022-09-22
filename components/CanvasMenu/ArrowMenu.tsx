@@ -1,12 +1,12 @@
-import { Space, Popover, Button, Select, InputNumber } from "antd";
-import { RectConfig } from "konva/lib/shapes/Rect";
+import { Button, InputNumber, Popover, Space } from "antd";
+import { ArrowConfig } from "konva/lib/shapes/Arrow";
 import { CompactPicker } from "react-color";
 import { ColorBlock } from "./ColorBlock";
 import { IconButton } from "./IconButton";
 
-export const RectMenu = (props: {
-  value: RectConfig;
-  onChange: (value: RectConfig) => void;
+export const ArrowMenu = (props: {
+  value: ArrowConfig;
+  onChange: (value: ArrowConfig) => void;
 }) => {
   const { value, onChange } = props;
 
@@ -16,25 +16,9 @@ export const RectMenu = (props: {
         content={
           <CompactPicker
             onChange={(color) => {
-              onChange({ ...value, fill: color.hex });
-            }}
-            color={value.fill}
-          />
-        }
-        trigger="click"
-        placement="bottomLeft"
-      >
-        <IconButton>
-          <ColorBlock color={value.fill} />
-        </IconButton>
-      </Popover>
-      <Popover
-        content={
-          <CompactPicker
-            onChange={(color) => {
               onChange({ ...value, stroke: color.hex });
             }}
-            color={value.stroke as string | undefined}
+            color={value.fill}
           />
         }
         trigger="click"
@@ -46,7 +30,7 @@ export const RectMenu = (props: {
       </Popover>
 
       <div>
-        <div className="text-xs text-gray-400">Outline Thickness:</div>
+        <div className="text-xs text-gray-400">Thickness:</div>
         <InputNumber
           value={value.strokeWidth}
           onChange={(strokeWidth) => {
@@ -60,18 +44,30 @@ export const RectMenu = (props: {
       </div>
 
       <div>
-        <div className="text-xs text-gray-400">Border Radius:</div>
+        <div className="text-xs text-gray-400">Arrow Head Size:</div>
         <InputNumber
-          value={value.cornerRadius as number}
-          onChange={(cornerRadius) => {
+          value={value.pointerWidth}
+          onChange={(pointerWidth) => {
             onChange({
               ...value,
-              cornerRadius: cornerRadius as number,
+              pointerWidth: pointerWidth as number,
             });
           }}
           size="small"
         />
       </div>
+
+      <Button
+        type={value.dash ? "primary" : "default"}
+        onClick={() => {
+          onChange({
+            ...value,
+            dash: value.dash ? undefined : [5, 5],
+          });
+        }}
+      >
+        Dashed
+      </Button>
     </Space>
   );
 };

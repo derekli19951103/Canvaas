@@ -38,9 +38,9 @@ export const TText = (
             y: e.target.y(),
           });
         }}
-        onTransform={() => {
+        onTransform={(transform) => {
           const node = shapeRef.current;
-          const scaleX = node.scaleX();
+          const scaleX = transform.target.scaleX();
 
           node.scaleX(1);
           node.scaleY(1);
@@ -49,8 +49,7 @@ export const TText = (
             x: node.x(),
             y: node.y(),
             width: node.width() * scaleX,
-            scaleX: 1,
-            scaleY: 1,
+            rotation: transform.target.rotation(),
           });
         }}
       />
