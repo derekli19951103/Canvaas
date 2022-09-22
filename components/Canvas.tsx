@@ -1,7 +1,5 @@
 import { useWindowSize } from "hooks/useWindowResize";
 import { KonvaEventObject } from "konva/lib/Node";
-import { RectConfig } from "konva/lib/shapes/Rect";
-import { useState } from "react";
 import { Layer, Stage } from "react-konva";
 import { CanvasData, CanvasItem } from "types/datatypes";
 import { TImage } from "./Shapes/TImage";
@@ -51,11 +49,12 @@ export const Canvas = (props: {
 
   return (
     <Stage
-      width={windowSize.width}
-      height={windowSize.height}
+      width={state.width || windowSize.width}
+      height={state.height || windowSize.height}
       globalCompositeOperation="destination-over"
       onMouseDown={checkDeselect}
       onTouchStart={checkDeselect}
+      style={{ backgroundColor: state.background }}
     >
       <Layer>
         {state.items.map((i) => {

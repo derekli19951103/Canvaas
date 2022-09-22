@@ -14,5 +14,7 @@ export interface CanvasItem {
 
 export interface CanvasData {
   background: string;
+  width?: number;
+  height?: number;
   items: CanvasItem[];
 }

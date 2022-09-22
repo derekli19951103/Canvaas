@@ -12,7 +12,7 @@ const Canvas = dynamic(
 
 const Home: NextPage = () => {
   const [state, setState] = useState<CanvasData>({
-    background: "white",
+    background: "silver",
     items: shapes,
   });
   const [selectedId, setSelectId] = useState<string>();
@@ -22,8 +22,9 @@ const Home: NextPage = () => {
   }, [state]);
 
   return (
-    <div style={{ padding: 20 }}>
+    <div>
       <CanvasMenu state={state} onChange={setState} selectedId={selectedId} />
+      <div style={{ paddingTop: 10 }}></div>
       <Canvas
         state={state}
         onChange={setState}

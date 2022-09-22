@@ -1,8 +1,12 @@
-import { Button, Col, Row, Space } from "antd";
+import { Button, Col, Popover, Row, Space } from "antd";
 import { useMemo } from "react";
 import { CanvasData, CanvasItem } from "types/datatypes";
 import { TextMenu } from "./TextMenu";
 import { CgFormatText } from "react-icons/cg";
+import { CompactPicker } from "react-color";
+import { ShapeMenu } from "./ShapeMenu";
+import { RectMenu } from "./RectMenu";
+import { IconButton } from "./IconButton";
 
 export const CanvasMenu = (props: {
   state: CanvasData;
@@ -37,8 +41,29 @@ export const CanvasMenu = (props: {
     <Row justify="space-between">
       <Col>
         <Space>
-          <Button icon={<CgFormatText size="25px" />} />
-          <Button icon={<CgFormatText size="25px" />} />
+          <Popover
+            content={
+              <CompactPicker
+                onChange={(color) => {
+                  onChange({ ...state, background: color.hex });
+                }}
+              />
+            }
+            trigger="click"
+            placement="bottomLeft"
+          >
+            <IconButton>
+              <div
+                style={{
+                  backgroundColor: state.background,
+                  width: 20,
+                  height: 20,
+                }}
+                className="rounded-md"
+              />
+            </IconButton>
+          </Popover>
+          <ShapeMenu state={state} onChange={onChange} />
           <Button icon={<CgFormatText size="25px" />} />
           <Button icon={<CgFormatText size="25px" />} />
           <Button icon={<CgFormatText size="25px" />} />
@@ -48,6 +73,14 @@ export const CanvasMenu = (props: {
       <Col>
         {selectedItem?.type === "text" && (
           <TextMenu
+            value={selectedItem.data}
+            onChange={(value) => {
+              onChangeData(value, selectedItem);
+            }}
+          />
+        )}
+        {selectedItem?.type === "rect" && (
+          <RectMenu
             value={selectedItem.data}
             onChange={(value) => {
               onChangeData(value, selectedItem);
