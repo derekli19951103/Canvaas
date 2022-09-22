@@ -13,18 +13,4 @@ export const shapes: CanvasItem[] = [
       y: 100,
     },
   },
-  {
-    id: "2",
-    type: "text",
-    data: {
-      text: "GGGGGGiberrish",
-      x: 10,
-      y: 10,
-      fontSize: 20,
-      stroke: "blue",
-      strokeWidth: 0,
-      fill: "blue",
-      fontStyle: "normal",
-    } as TextConfig,
-  },
 ];

@@ -1,10 +1,19 @@
-import { Button, InputNumber, Popover, Select, Space } from "antd";
+import { Button, Popover, Select, Space } from "antd";
 import { TextConfig } from "konva/lib/shapes/Text";
 import { CompactPicker } from "react-color";
 import { ColorBlock } from "./ColorBlock";
 import { IconButton } from "./IconButton";
 
-const FontFamilies = ["Calibri", "Roboto"];
+const FontFamilies = [
+  "Roboto",
+  "Roboto Condensed",
+  "Roboto Mono",
+  "Open Sans",
+  "Montserrat",
+  "Poppins",
+  "Oswald",
+  "Noto Sans SC",
+];
 
 const range = (start: number, stop: number, step = 1) =>
   Array(Math.ceil((stop - start) / step))
@@ -45,6 +54,7 @@ export const TextMenu = (props: {
             fontFamily: font,
           });
         }}
+        style={{ width: 200 }}
       />
 
       <Select

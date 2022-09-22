@@ -11,6 +11,7 @@ import { ColorBlock } from "./ColorBlock";
 import { EllipseMenu } from "./EllipseMenu";
 import { LineMenu } from "./LineMenu";
 import { ArrowMenu } from "./ArrowMenu";
+import { v4 as uuidv4 } from "uuid";
 
 export const CanvasMenu = (props: {
   state: CanvasData;
@@ -18,6 +19,10 @@ export const CanvasMenu = (props: {
   selectedId?: string;
 }) => {
   const { selectedId, state, onChange } = props;
+
+  const defaultX = state.width ? state.width / 2 : 300;
+  const defaultY = state.height ? state.height / 2 : 300;
+
   const selectedItem = useMemo(() => {
     if (selectedId) {
       return state.items.find((i) => i.id === selectedId);
@@ -63,6 +68,31 @@ export const CanvasMenu = (props: {
             </IconButton>
           </Popover>
           <ShapeMenu state={state} onChange={onChange} />
+          <IconButton>
+            <CgFormatText
+              size="25px"
+              onClick={() => {
+                onChange({
+                  ...state,
+                  items: state.items.concat([
+                    {
+                      id: uuidv4(),
+                      type: "text",
+                      data: {
+                        text: "Sample Text",
+                        x: defaultX,
+                        y: defaultY,
+                        fontSize: 20,
+                        fill: "blue",
+                        fontStyle: "normal",
+                        fontFamily: "Roboto",
+                      },
+                    },
+                  ]),
+                });
+              }}
+            />
+          </IconButton>
         </Space>
       </Col>
 

@@ -5,9 +5,10 @@ import { CanvasData, CanvasItem } from "types/datatypes";
 import { TImage } from "./Shapes/TImage";
 import { TRect } from "./Shapes/TRect";
 import { TEllipse } from "./Shapes/TEllipse";
-import { TText } from "./Shapes/TText";
+import { TText } from "./Shapes/TText/TText";
 import { TLine } from "./Shapes/TLine";
 import { TArrow } from "./Shapes/TArrow";
+import { useState } from "react";
 
 export const Canvas = (props: {
   state: CanvasData;
