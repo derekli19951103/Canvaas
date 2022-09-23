@@ -1,8 +1,8 @@
 import { Button, InputNumber, Popover, Space } from "antd";
 import { ArrowConfig } from "konva/lib/shapes/Arrow";
 import { CompactPicker } from "react-color";
-import { ColorBlock } from "./ColorBlock";
-import { IconButton } from "./IconButton";
+import { ColorBlock } from "../ColorBlock";
+import { IconButton } from "../IconButton";
 
 export const ArrowMenu = (props: {
   value: ArrowConfig;

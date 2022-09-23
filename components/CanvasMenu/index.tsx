@@ -1,17 +1,17 @@
-import { Button, Col, Popover, Row, Space } from "antd";
+import { Col, Popover, Row, Space } from "antd";
 import { useMemo } from "react";
-import { CanvasData, CanvasItem } from "types/datatypes";
-import { TextMenu } from "./TextMenu";
-import { CgFormatText } from "react-icons/cg";
 import { CompactPicker } from "react-color";
-import { ShapeMenu } from "./ShapeMenu";
-import { RectMenu } from "./RectMenu";
-import { IconButton } from "./IconButton";
-import { ColorBlock } from "./ColorBlock";
-import { EllipseMenu } from "./EllipseMenu";
-import { LineMenu } from "./LineMenu";
-import { ArrowMenu } from "./ArrowMenu";
+import { CgFormatText } from "react-icons/cg";
+import { CanvasData, CanvasItem } from "types/datatypes";
 import { v4 as uuidv4 } from "uuid";
+import { ColorBlock } from "./ColorBlock";
+import { IconButton } from "./IconButton";
+import { ArrowMenu } from "./ShapeConfigMenus/ArrowMenu";
+import { EllipseMenu } from "./ShapeConfigMenus/EllipseMenu";
+import { LineMenu } from "./ShapeConfigMenus/LineMenu";
+import { RectMenu } from "./ShapeConfigMenus/RectMenu";
+import { TextMenu } from "./ShapeConfigMenus/TextMenu";
+import { ShapeMenu } from "./ShapeMenu";
 
 export const CanvasMenu = (props: {
   state: CanvasData;

@@ -1,8 +1,8 @@
-import { Space, Popover, Button, Select, InputNumber } from "antd";
+import { InputNumber, Popover, Space } from "antd";
 import { RectConfig } from "konva/lib/shapes/Rect";
 import { CompactPicker } from "react-color";
-import { ColorBlock } from "./ColorBlock";
-import { IconButton } from "./IconButton";
+import { ColorBlock } from "../ColorBlock";
+import { IconButton } from "../IconButton";
 
 export const RectMenu = (props: {
   value: RectConfig;

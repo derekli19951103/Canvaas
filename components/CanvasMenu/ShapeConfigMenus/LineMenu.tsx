@@ -1,8 +1,8 @@
 import { Button, InputNumber, Popover, Space } from "antd";
 import { LineConfig } from "konva/lib/shapes/Line";
 import { CompactPicker } from "react-color";
-import { ColorBlock } from "./ColorBlock";
-import { IconButton } from "./IconButton";
+import { ColorBlock } from "../ColorBlock";
+import { IconButton } from "../IconButton";
 
 export const LineMenu = (props: {
   value: LineConfig;

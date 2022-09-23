@@ -46,7 +46,6 @@ export const TText = (
         <Text
           ref={shapeRef}
           {...shapeProps}
-          draggable
           onTap={onSelect}
           onClick={onSelect}
           onDragStart={onSelect}
@@ -58,12 +57,26 @@ export const TText = (
             });
           }}
           onDblClick={() => {
-            setIsEditing(true);
+            if (shapeProps.draggable) {
+              setIsEditing(true);
+            }
           }}
           onDblTap={() => {
-            setIsEditing(true);
+            if (shapeProps.draggable) {
+              setIsEditing(true);
+            }
           }}
           onTransform={(transform) => {
+            const node = shapeRef.current;
+            const scaleX = transform.target.scaleX();
+            node.scaleX(1);
+            node.scaleY(1);
+            node.width(node.width() * scaleX);
+            node.rotation(transform.target.rotation());
+            node.x(node.x());
+            node.y(node.y());
+          }}
+          onTransformEnd={(transform) => {
             const node = shapeRef.current;
             const scaleX = transform.target.scaleX();
 

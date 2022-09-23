@@ -2,21 +2,21 @@ import { useWindowSize } from "hooks/useWindowResize";
 import { KonvaEventObject } from "konva/lib/Node";
 import { Layer, Stage } from "react-konva";
 import { CanvasData, CanvasItem } from "types/datatypes";
-import { TImage } from "./Shapes/TImage";
-import { TRect } from "./Shapes/TRect";
-import { TEllipse } from "./Shapes/TEllipse";
-import { TText } from "./Shapes/TText/TText";
-import { TLine } from "./Shapes/TLine";
 import { TArrow } from "./Shapes/TArrow";
-import { useState } from "react";
+import { TEllipse } from "./Shapes/TEllipse";
+import { TImage } from "./Shapes/TImage";
+import { TLine } from "./Shapes/TLine";
+import { TRect } from "./Shapes/TRect";
+import { TText } from "./Shapes/TText/TText";
 
 export const Canvas = (props: {
   state: CanvasData;
-  onChange: (state: CanvasData) => void;
+  onChange?: (state: CanvasData) => void;
   selectedId?: string;
-  onSelect: (id?: string) => void;
+  onSelect?: (id?: string) => void;
+  editable?: boolean;
 }) => {
-  const { state, onChange, selectedId, onSelect } = props;
+  const { state, onChange, selectedId, onSelect, editable } = props;
 
   const windowSize = useWindowSize();
 
@@ -33,7 +33,7 @@ export const Canvas = (props: {
         data: value,
       };
 
-      onChange({ items: itemsCopy, ...rest });
+      onChange && onChange({ items: itemsCopy, ...rest });
     }
   };
 
@@ -43,12 +43,14 @@ export const Canvas = (props: {
     // deselect when clicked on empty area
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
-      onSelect(undefined);
+      onSelect && onSelect(undefined);
     }
   };
 
   const checkSelect = (item: CanvasItem) => {
-    onSelect(item.id);
+    if (editable) {
+      onSelect && onSelect(item.id);
+    }
   };
 
   return (
@@ -68,6 +70,7 @@ export const Canvas = (props: {
                 <TImage
                   url={i.data.src}
                   {...i.data}
+                  draggable={editable}
                   isSelected={i.id === selectedId}
                   onSelect={() => {
                     checkSelect(i);
@@ -81,6 +84,7 @@ export const Canvas = (props: {
               return (
                 <TRect
                   {...i.data}
+                  draggable={editable}
                   isSelected={i.id === selectedId}
                   onSelect={() => {
                     checkSelect(i);
@@ -94,6 +98,7 @@ export const Canvas = (props: {
               return (
                 <TText
                   {...i.data}
+                  draggable={editable}
                   isSelected={i.id === selectedId}
                   onSelect={() => {
                     checkSelect(i);
@@ -107,6 +112,7 @@ export const Canvas = (props: {
               return (
                 <TEllipse
                   {...i.data}
+                  draggable={editable}
                   isSelected={i.id === selectedId}
                   onSelect={() => {
                     checkSelect(i);
@@ -120,6 +126,7 @@ export const Canvas = (props: {
               return (
                 <TLine
                   {...i.data}
+                  draggable={editable}
                   isSelected={i.id === selectedId}
                   onSelect={() => {
                     checkSelect(i);
@@ -133,6 +140,7 @@ export const Canvas = (props: {
               return (
                 <TArrow
                   {...i.data}
+                  draggable={editable}
                   isSelected={i.id === selectedId}
                   onSelect={() => {
                     checkSelect(i);

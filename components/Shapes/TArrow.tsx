@@ -27,7 +27,6 @@ export const TArrow = (
       <Arrow
         ref={shapeRef}
         {...shapeProps}
-        draggable
         onTap={onSelect}
         onClick={onSelect}
         onDragStart={onSelect}

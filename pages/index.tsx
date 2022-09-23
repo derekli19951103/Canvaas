@@ -30,6 +30,7 @@ const Home: NextPage = () => {
         onChange={setState}
         selectedId={selectedId}
         onSelect={setSelectId}
+        editable
       />
     </div>
   );

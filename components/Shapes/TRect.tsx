@@ -27,7 +27,6 @@ export const TRect = (
       <Rect
         ref={shapeRef}
         {...shapeProps}
-        draggable
         strokeScaleEnabled={false}
         onTap={onSelect}
         onClick={onSelect}

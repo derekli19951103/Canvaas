@@ -31,7 +31,6 @@ export const TImage = (
         ref={shapeRef}
         image={image}
         {...shapeProps}
-        draggable
         onTap={onSelect}
         onClick={onSelect}
         onDragStart={onSelect}

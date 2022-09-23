@@ -1,8 +1,8 @@
 import { Button, Popover, Select, Space } from "antd";
 import { TextConfig } from "konva/lib/shapes/Text";
 import { CompactPicker } from "react-color";
-import { ColorBlock } from "./ColorBlock";
-import { IconButton } from "./IconButton";
+import { ColorBlock } from "../ColorBlock";
+import { IconButton } from "../IconButton";
 
 const FontFamilies = [
   "Roboto",

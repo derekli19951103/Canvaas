@@ -27,7 +27,6 @@ export const TLine = (
       <Line
         ref={shapeRef}
         {...shapeProps}
-        draggable
         onTap={onSelect}
         onClick={onSelect}
         onDragStart={onSelect}

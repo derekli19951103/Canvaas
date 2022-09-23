@@ -27,7 +27,6 @@ export const TEllipse = (
       <Ellipse
         ref={shapeRef}
         {...shapeProps}
-        draggable
         strokeScaleEnabled={false}
         onTap={onSelect}
         onClick={onSelect}

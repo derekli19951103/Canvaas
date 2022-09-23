@@ -1,8 +1,8 @@
 import { InputNumber, Popover, Space } from "antd";
 import { EllipseConfig } from "konva/lib/shapes/Ellipse";
 import { CompactPicker } from "react-color";
-import { ColorBlock } from "./ColorBlock";
-import { IconButton } from "./IconButton";
+import { ColorBlock } from "../ColorBlock";
+import { IconButton } from "../IconButton";
 
 export const EllipseMenu = (props: {
   value: EllipseConfig;
