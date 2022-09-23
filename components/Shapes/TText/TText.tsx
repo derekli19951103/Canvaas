@@ -31,7 +31,7 @@ export const TText = (
       <EditableTextInput
         config={shapeProps}
         onChange={(e) => {
-          onChange({ ...shapeProps, text: e.currentTarget.value });
+          onChange({ ...shapeProps, text: e.target.value });
         }}
         onKeyDown={(e) => {
           if ((e.key === "Enter" && !e.shiftKey) || e.key === "Escape") {

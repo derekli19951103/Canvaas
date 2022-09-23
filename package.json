@@ -11,6 +11,7 @@
   "dependencies": {
     "antd": "^4.23.2",
     "konva": "^8.3.12",
+    "lodash": "^4.17.21",
     "next": "12.3.0",
     "react": "18.2.0",
     "react-color": "^2.19.3",
@@ -23,6 +24,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.185",
     "@types/node": "18.7.18",
     "@types/react": "18.0.20",
     "@types/react-color": "^3.0.6",

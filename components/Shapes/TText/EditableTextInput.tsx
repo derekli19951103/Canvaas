@@ -1,6 +1,7 @@
 import { TextConfig } from "konva/lib/shapes/Text";
 import { ChangeEventHandler, KeyboardEventHandler } from "react";
 import { Html } from "react-konva-utils";
+import { DelayedTextArea } from "./DelayedTextArea";
 
 export const EditableTextInput = ({
   config,
@@ -16,7 +17,7 @@ export const EditableTextInput = ({
       groupProps={{ x: config.x, y: config.y }}
       divProps={{ style: { opacity: 1 } }}
     >
-      <textarea
+      <DelayedTextArea
         value={config.text}
         onChange={onChange}
         onKeyDown={onKeyDown}
