@@ -1,15 +1,16 @@
-import { Col, Row } from "antd";
+import { Slider } from "antd";
 import { CanvasMenu } from "components/CanvasMenu";
 import { IconButton } from "components/CanvasMenu/IconButton";
 import { shapes } from "constant/constant";
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { CanvasData } from "types/datatypes";
 import { MdOutlineGridOff, MdOutlineGridOn } from "react-icons/md";
+import { CanvasData } from "types/datatypes";
+import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai";
 
 const Canvas = dynamic(
-  () => import("components/Canvas").then((mod) => mod.Canvas),
+  () => import("components/Canvas/Canvas").then((mod) => mod.Canvas),
   { ssr: false }
 );
 
@@ -20,6 +21,7 @@ const Home: NextPage = () => {
   });
   const [selectedId, setSelectId] = useState<string>();
   const [dispGrid, setDispGrid] = useState(false);
+  const [scale, setScale] = useState(100);
 
   useEffect(() => {
     console.log(state);
@@ -27,9 +29,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <Row justify="space-between">
-        <CanvasMenu state={state} onChange={setState} selectedId={selectedId} />
-
+      <CanvasMenu state={state} onChange={setState} selectedId={selectedId}>
         <IconButton
           onClick={() => {
             setDispGrid(!dispGrid);
@@ -41,7 +41,20 @@ const Home: NextPage = () => {
             <MdOutlineGridOn size="25px" />
           )}
         </IconButton>
-      </Row>
+        <div className="flex items-center">
+          <AiOutlineZoomIn size="20px" />
+          <Slider
+            value={scale}
+            onChange={setScale}
+            style={{ width: 200 }}
+            min={1}
+            max={100}
+          />
+          <AiOutlineZoomOut size="20px" className="ml-2" />
+          <span className="ml-2">{scale}%</span>
+        </div>
+      </CanvasMenu>
+
       <div style={{ paddingTop: 10 }}></div>
       <Canvas
         state={state}
@@ -49,6 +62,7 @@ const Home: NextPage = () => {
         selectedId={selectedId}
         onSelect={setSelectId}
         dispGrid={dispGrid}
+        scale={scale}
         editable
       />
     </div>

@@ -1,5 +1,5 @@
 import { Col, Popover, Row, Space } from "antd";
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { CompactPicker } from "react-color";
 import { CgFormatText } from "react-icons/cg";
 import { CanvasData, CanvasItem } from "types/datatypes";
@@ -17,8 +17,9 @@ export const CanvasMenu = (props: {
   state: CanvasData;
   onChange: (state: CanvasData) => void;
   selectedId?: string;
+  children?: ReactNode;
 }) => {
-  const { selectedId, state, onChange } = props;
+  const { selectedId, state, onChange, children } = props;
 
   const defaultX = state.width ? state.width / 2 : 300;
   const defaultY = state.height ? state.height / 2 : 300;
@@ -50,23 +51,6 @@ export const CanvasMenu = (props: {
     <Row justify="space-between">
       <Col>
         <Space>
-          <Popover
-            content={
-              <CompactPicker
-                onChange={(color) => {
-                  onChange({ ...state, background: color.hex });
-                }}
-                color={state.background}
-              />
-            }
-            trigger="click"
-            placement="bottomLeft"
-          >
-            <IconButton style={{ width: 160 }}>
-              <ColorBlock color={state.background} />{" "}
-              <span className="ml-2 select-none">Background color</span>
-            </IconButton>
-          </Popover>
           <ShapeMenu state={state} onChange={onChange} />
           <IconButton>
             <CgFormatText
@@ -93,6 +77,24 @@ export const CanvasMenu = (props: {
               }}
             />
           </IconButton>
+          <Popover
+            content={
+              <CompactPicker
+                onChange={(color) => {
+                  onChange({ ...state, background: color.hex });
+                }}
+                color={state.background}
+              />
+            }
+            trigger="click"
+            placement="bottomLeft"
+          >
+            <IconButton style={{ width: 160 }}>
+              <ColorBlock color={state.background} />{" "}
+              <span className="ml-2 select-none">Background color</span>
+            </IconButton>
+          </Popover>
+          {children}
         </Space>
       </Col>
 
