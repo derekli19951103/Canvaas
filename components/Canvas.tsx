@@ -1,6 +1,7 @@
 import { useWindowSize } from "hooks/useWindowResize";
 import { KonvaEventObject } from "konva/lib/Node";
-import { Layer, Stage } from "react-konva";
+import { useEffect, useMemo, useRef } from "react";
+import { Layer, Line, Stage } from "react-konva";
 import { CanvasData, CanvasItem } from "types/datatypes";
 import { TArrow } from "./Shapes/TArrow";
 import { TEllipse } from "./Shapes/TEllipse";
@@ -8,6 +9,9 @@ import { TImage } from "./Shapes/TImage";
 import { TLine } from "./Shapes/TLine";
 import { TRect } from "./Shapes/TRect";
 import { TText } from "./Shapes/TText/TText";
+import Color from "color";
+
+const grid = 70;
 
 export const Canvas = (props: {
   state: CanvasData;
@@ -15,10 +19,53 @@ export const Canvas = (props: {
   selectedId?: string;
   onSelect?: (id?: string) => void;
   editable?: boolean;
+  dispGrid?: boolean;
 }) => {
-  const { state, onChange, selectedId, onSelect, editable } = props;
+  const { state, onChange, selectedId, onSelect, editable, dispGrid } = props;
+
+  const gridLayer = useRef<any>(null);
 
   const windowSize = useWindowSize();
+  const width = state.width || windowSize.width;
+  const height = state.height || windowSize.height;
+
+  useEffect(() => {
+    if (gridLayer.current) {
+      if (dispGrid && !gridLayer.current.isVisible()) {
+        gridLayer.current.show();
+      } else if (!dispGrid && gridLayer.current.isVisible()) {
+        gridLayer.current.hide();
+      }
+    }
+  }, [dispGrid]);
+
+  const gridLines = useMemo(() => {
+    const verticalLines = [];
+    const horizontalLines = [];
+
+    const bgColor = Color(state.background);
+    const darken = bgColor.darken(0.1);
+    if (width) {
+      for (let i = 0; i < width / grid; i++) {
+        verticalLines.push(
+          <Line
+            strokeWidth={2}
+            stroke={darken.hex()}
+            points={[i * grid, 0, i * grid, width]}
+          />
+        );
+        horizontalLines.push(
+          <Line
+            strokeWidth={2}
+            stroke={darken.hex()}
+            points={[0, i * grid, width, i * grid]}
+          />
+        );
+      }
+    }
+
+    return verticalLines.concat(horizontalLines);
+  }, [width, state.background]);
 
   const onChangeData = (value: any, i: CanvasItem) => {
     const { items, ...rest } = state;
@@ -55,13 +102,14 @@ export const Canvas = (props: {
 
   return (
     <Stage
-      width={state.width || windowSize.width}
-      height={state.height || windowSize.height}
+      width={width}
+      height={height}
       globalCompositeOperation="destination-over"
       onMouseDown={checkDeselect}
       onTouchStart={checkDeselect}
       style={{ backgroundColor: state.background }}
     >
+      <Layer ref={gridLayer}>{gridLines}</Layer>
       <Layer>
         {state.items.map((i) => {
           switch (i.type) {
