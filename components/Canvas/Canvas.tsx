@@ -145,7 +145,6 @@ export const Canvas = (props: {
         <BasicContextMenu
           event={contextMenuEvent}
           state={state}
-          contentLayerChildren={contentLayer.current?.children}
           onChange={onChange}
           onDoneAction={() => {
             setContextMenuEvent(undefined);
