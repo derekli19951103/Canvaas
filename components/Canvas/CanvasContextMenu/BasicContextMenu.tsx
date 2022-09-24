@@ -37,6 +37,10 @@ export const BasicContextMenu = (props: {
             x: 0,
             y: 0,
           });
+          stage.offset({
+            x: 0,
+            y: 0,
+          });
         }
 
         onDoneAction();
