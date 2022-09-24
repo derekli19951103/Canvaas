@@ -23,10 +23,6 @@ const Home: NextPage = () => {
   const [dispGrid, setDispGrid] = useState(false);
   const [scale, setScale] = useState(100);
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   return (
     <div>
       <CanvasMenu state={state} onChange={setState} selectedId={selectedId}>
@@ -58,7 +54,10 @@ const Home: NextPage = () => {
       <div style={{ paddingTop: 10 }}></div>
       <Canvas
         state={state}
-        onChange={setState}
+        onChange={(state) => {
+          console.log(state);
+          setState(state);
+        }}
         selectedId={selectedId}
         onSelect={setSelectId}
         dispGrid={dispGrid}

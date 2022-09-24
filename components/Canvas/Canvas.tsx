@@ -1,16 +1,16 @@
+import Color from "color";
 import { useWindowSize } from "hooks/useWindowResize";
 import { KonvaEventObject } from "konva/lib/Node";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Layer, Line, Stage } from "react-konva";
 import { CanvasData, CanvasItem } from "types/datatypes";
+import { BasicContextMenu } from "./CanvasContextMenu/BasicContextMenu";
 import { TArrow } from "./Shapes/TArrow";
 import { TEllipse } from "./Shapes/TEllipse";
 import { TImage } from "./Shapes/TImage";
 import { TLine } from "./Shapes/TLine";
 import { TRect } from "./Shapes/TRect";
 import { TText } from "./Shapes/TText/TText";
-import Color from "color";
-import { BasicContextMenu } from "./CanvasContextMenu/BasicContextMenu";
 
 const grid = 70;
 
@@ -145,6 +145,7 @@ export const Canvas = (props: {
         <BasicContextMenu
           event={contextMenuEvent}
           state={state}
+          contentLayerChildren={contentLayer.current?.children}
           onChange={onChange}
           onDoneAction={() => {
             setContextMenuEvent(undefined);
