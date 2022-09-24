@@ -134,6 +134,7 @@ export const Canvas = (props: {
   };
 
   const onContextMenu = (e: KonvaEventObject<PointerEvent>) => {
+    console.log(e);
     e.evt.preventDefault();
     setContextMenuEvent(e);
   };

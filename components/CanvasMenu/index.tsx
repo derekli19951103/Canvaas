@@ -67,6 +67,7 @@ export const CanvasMenu = (props: {
                         x: defaultX,
                         y: defaultY,
                         fontSize: 20,
+                        width: 200,
                         fill: "blue",
                         fontStyle: "normal",
                         fontFamily: "Roboto",

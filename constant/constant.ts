@@ -1,6 +1,3 @@
-import { ArrowConfig } from "konva/lib/shapes/Arrow";
-import { LineConfig } from "konva/lib/shapes/Line";
-import { TextConfig } from "konva/lib/shapes/Text";
 import { CanvasItem } from "types/datatypes";
 
 export const shapes: CanvasItem[] = [
@@ -8,7 +5,7 @@ export const shapes: CanvasItem[] = [
     id: "1",
     type: "image",
     data: {
-      src: "https://file-assets-prod.bspacesoft.com/files/R_photo/0/2022/8/8/18c19ad0420845e9a4c845f180f6a5d7/4569d7ea-99b1-4fdf-bc53-38d1c40c7ed2.jpg",
+      src: "https://avatars.githubusercontent.com/u/32277391?s=400&u=976e5cf71238d0aea67cb60ff962833b0023aeaa&v=4",
       x: 100,
       y: 100,
     },
