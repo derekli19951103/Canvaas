@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { MdOutlineGridOff, MdOutlineGridOn } from "react-icons/md";
 import { CanvasData } from "types/datatypes";
 import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai";
+import { useWindowSize } from "hooks/useWindowResize";
 
 const Canvas = dynamic(
   () => import("components/Canvas/Canvas").then((mod) => mod.Canvas),
@@ -15,6 +16,7 @@ const Canvas = dynamic(
 );
 
 const Home: NextPage = () => {
+  const windowSize = useWindowSize();
   const [state, setState] = useState<CanvasData>({
     background: "#F2F2F2",
     items: shapes,
@@ -22,6 +24,12 @@ const Home: NextPage = () => {
   const [selectedId, setSelectId] = useState<string>();
   const [dispGrid, setDispGrid] = useState(false);
   const [scale, setScale] = useState(100);
+
+  useEffect(() => {
+    if (windowSize.height) {
+      setState({ ...state, height: windowSize.height - 50 });
+    }
+  }, [windowSize.height]);
 
   return (
     <div>
