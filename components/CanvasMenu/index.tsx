@@ -8,6 +8,7 @@ import { ColorBlock } from "./ColorBlock";
 import { IconButton } from "./IconButton";
 import { ArrowMenu } from "./ShapeConfigMenus/ArrowMenu";
 import { EllipseMenu } from "./ShapeConfigMenus/EllipseMenu";
+import { ImageMenu } from "./ShapeConfigMenus/ImageMenu";
 import { LineMenu } from "./ShapeConfigMenus/LineMenu";
 import { RectMenu } from "./ShapeConfigMenus/RectMenu";
 import { TextMenu } from "./ShapeConfigMenus/TextMenu";
@@ -17,12 +18,11 @@ export const CanvasMenu = (props: {
   state: CanvasData;
   onChange: (state: CanvasData) => void;
   selectedId?: string;
-  children?: ReactNode;
 }) => {
-  const { selectedId, state, onChange, children } = props;
+  const { selectedId, state, onChange } = props;
 
-  const defaultX = state.width ? state.width / 2 : 300;
-  const defaultY = state.height ? state.height / 2 : 300;
+  const defaultX = 300;
+  const defaultY = 300;
 
   const selectedItem = useMemo(() => {
     if (selectedId) {
@@ -95,7 +95,6 @@ export const CanvasMenu = (props: {
               <span className="ml-2 select-none">Background color</span>
             </IconButton>
           </Popover>
-          {children}
         </Space>
       </Col>
 
@@ -134,6 +133,14 @@ export const CanvasMenu = (props: {
         )}
         {selectedItem?.type === "arrow" && (
           <ArrowMenu
+            value={selectedItem.data}
+            onChange={(value) => {
+              onChangeData(value, selectedItem);
+            }}
+          />
+        )}
+        {selectedItem?.type === "image" && (
+          <ImageMenu
             value={selectedItem.data}
             onChange={(value) => {
               onChangeData(value, selectedItem);
