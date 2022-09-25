@@ -1,15 +1,13 @@
-import { Slider } from "antd";
 import { CanvasMenu } from "components/CanvasMenu";
-import { IconButton } from "components/CanvasMenu/IconButton";
+import { ZoomSlider } from "components/CanvasMenu/ZoomSlider";
 import { shapes } from "constant/constant";
+import { readFileAsDataUrl } from "helpers/utils";
+import { useWindowSize } from "hooks/useWindowResize";
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
-import { MdOutlineGridOff, MdOutlineGridOn } from "react-icons/md";
+import { useState } from "react";
 import { CanvasData } from "types/datatypes";
-import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai";
-import { useWindowSize } from "hooks/useWindowResize";
-import { ZoomSlider } from "components/CanvasMenu/ZoomSlider";
+import { v4 as uuidv4 } from "uuid";
 
 const Canvas = dynamic(
   () => import("components/Canvas/Canvas").then((mod) => mod.Canvas),
@@ -23,7 +21,6 @@ const Home: NextPage = () => {
     items: shapes,
   });
   const [selectedId, setSelectId] = useState<string>();
-  const [dispGrid, setDispGrid] = useState(false);
   const [scale, setScale] = useState(100);
 
   return (
@@ -41,15 +38,38 @@ const Home: NextPage = () => {
           height={
             windowSize.height ? windowSize.height - 60 : windowSize.height
           }
+          selectedId={selectedId}
+          scale={scale}
+          editable
+          draggable
           onChange={(state) => {
             console.log(state);
             setState(state);
           }}
-          selectedId={selectedId}
           onSelect={setSelectId}
-          scale={scale}
-          editable
-          draggable
+          onDropFile={async (files) => {
+            const dataUrls = [];
+            for (let i = 0; i < files.length; i++) {
+              const file = files[i];
+              const url = await readFileAsDataUrl(file);
+              if (url) {
+                dataUrls.push(url);
+              }
+            }
+
+            setState({
+              ...state,
+              items: state.items.concat(
+                dataUrls.map((u) => {
+                  return {
+                    id: uuidv4(),
+                    type: "image",
+                    data: { src: u as string },
+                  };
+                })
+              ),
+            });
+          }}
         />
       </div>
     </div>

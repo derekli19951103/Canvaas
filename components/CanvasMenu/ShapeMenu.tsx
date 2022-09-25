@@ -12,8 +12,8 @@ export const ShapeMenu = (props: {
   onChange: (state: CanvasData) => void;
 }) => {
   const { state, onChange } = props;
-  const defaultX = state.width ? state.width / 2 : 300;
-  const defaultY = state.height ? state.height / 2 : 300;
+  const defaultX = 300;
+  const defaultY = 300;
 
   return (
     <Popover

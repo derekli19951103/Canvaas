@@ -1,5 +1,5 @@
 import { Col, Popover, Row, Space } from "antd";
-import { ReactNode, useMemo } from "react";
+import { useMemo } from "react";
 import { CompactPicker } from "react-color";
 import { CgFormatText } from "react-icons/cg";
 import { CanvasData, CanvasItem } from "types/datatypes";

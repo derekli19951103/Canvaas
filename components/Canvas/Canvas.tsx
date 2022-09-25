@@ -23,6 +23,7 @@ export const Canvas = (props: {
 
   onChange?: (state: CanvasData) => void;
   onSelect?: (id?: string) => void;
+  onDropFile?: (files: FileList) => void;
 }) => {
   const {
     state,
@@ -34,6 +35,7 @@ export const Canvas = (props: {
     scale,
     onSelect,
     onChange,
+    onDropFile,
   } = props;
 
   const contentLayer = useRef<any>(null);
@@ -107,7 +109,26 @@ export const Canvas = (props: {
   };
 
   return (
-    <div>
+    <div
+      onDrop={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const files = e.dataTransfer.files;
+        onDropFile && onDropFile(files);
+      }}
+      onDragEnter={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      onDragLeave={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      onDragOver={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
       {contextMenuEvent && (
         <BasicContextMenu
           event={contextMenuEvent}
