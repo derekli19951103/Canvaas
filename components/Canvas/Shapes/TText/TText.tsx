@@ -69,9 +69,11 @@ export const TText = (
           onTransform={(transform) => {
             const node = shapeRef.current;
             const scaleX = transform.target.scaleX();
+            const scaleY = transform.target.scaleY();
             node.scaleX(1);
             node.scaleY(1);
             node.width(node.width() * scaleX);
+            node.height(node.height() * scaleY);
             node.rotation(transform.target.rotation());
             node.x(node.x());
             node.y(node.y());
@@ -79,6 +81,7 @@ export const TText = (
           onTransformEnd={(transform) => {
             const node = shapeRef.current;
             const scaleX = transform.target.scaleX();
+            const scaleY = transform.target.scaleY();
 
             node.scaleX(1);
             node.scaleY(1);
@@ -86,18 +89,14 @@ export const TText = (
               ...shapeProps,
               x: node.x(),
               y: node.y(),
-              height: node.height(),
+              height: node.height() * scaleY,
               width: node.width() * scaleX,
               rotation: transform.target.rotation(),
             });
           }}
         />
         {isSelected && (
-          <Transformer
-            ref={trRef}
-            {...defaultTransformSettings}
-            enabledAnchors={["middle-left", "middle-right"]}
-          />
+          <Transformer ref={trRef} {...defaultTransformSettings} />
         )}
       </Fragment>
     );

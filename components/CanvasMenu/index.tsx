@@ -54,32 +54,30 @@ export const CanvasMenu = (props: {
       <Col>
         <Space>
           <ShapeMenu state={state} onChange={onChange} />
-          <IconButton>
-            <CgFormatText
-              size="25px"
-              onClick={() => {
-                const fontSize = 20;
-                onChange({
-                  ...state,
-                  items: state.items.concat([
-                    {
-                      id: uuidv4(),
-                      type: "text",
-                      data: {
-                        text: "Sample Text",
-                        x: defaultX,
-                        y: defaultY,
-                        fontSize: 20,
-                        width: 200,
-                        fill: "blue",
-                        fontStyle: "normal",
-                        fontFamily: "Roboto",
-                      },
+          <IconButton
+            onClick={() => {
+              onChange({
+                ...state,
+                items: state.items.concat([
+                  {
+                    id: uuidv4(),
+                    type: "text",
+                    data: {
+                      text: "Sample Text",
+                      x: defaultX,
+                      y: defaultY,
+                      fontSize: 20,
+                      width: 200,
+                      fill: "blue",
+                      fontStyle: "normal",
+                      fontFamily: "Roboto",
                     },
-                  ]),
-                });
-              }}
-            />
+                  },
+                ]),
+              });
+            }}
+          >
+            <CgFormatText size="25px" />
           </IconButton>
           <Popover
             content={

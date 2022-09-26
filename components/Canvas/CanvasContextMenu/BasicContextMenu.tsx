@@ -201,7 +201,7 @@ export const BasicContextMenu = (props: {
   return (
     <div
       style={{
-        position: "absolute",
+        position: "fixed",
         top: event.evt.y,
         left: event.evt.x,
         zIndex: 1,
