@@ -13,7 +13,7 @@ export const TImage = (
   }
 ) => {
   const { url, isSelected, onChange, onSelect, ...shapeProps } = props;
-  const [image] = useImage(url);
+  const [image] = useImage(url, "anonymous", "no-referrer");
   const shapeRef = useRef<any>(null);
   const trRef = useRef<any>(null);
 
