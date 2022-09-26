@@ -81,7 +81,7 @@ export const RectMenu = (props: {
           onChange={(opacity) => {
             onChange({
               ...value,
-              opacity: (opacity || 100) / 100,
+              opacity: opacity ? opacity / 100 : undefined,
             });
           }}
           size="small"
