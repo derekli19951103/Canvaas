@@ -23,6 +23,8 @@ export const ShapeMenu = (props: {
             <BiCircle
               size="40px"
               onClick={() => {
+                const radiusX = 100;
+                const radiusY = 100;
                 onChange({
                   ...state,
                   items: state.items.concat([
@@ -37,6 +39,8 @@ export const ShapeMenu = (props: {
                         fill: "white",
                         stroke: "black",
                         strokeWidth: 2,
+                        width: radiusX * 2,
+                        height: radiusY * 2,
                       },
                     },
                   ]),

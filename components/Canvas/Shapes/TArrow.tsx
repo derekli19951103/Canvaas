@@ -45,6 +45,7 @@ export const TArrow = (
             ...shapeProps,
             x: node.x(),
             y: node.y(),
+            height: node.height(),
             width: node.width() * scaleX,
             scaleX,
             rotation: transform.target.rotation(),

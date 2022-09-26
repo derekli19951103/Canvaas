@@ -54,6 +54,8 @@ export const TEllipse = (
             ...shapeProps,
             x: node.x(),
             y: node.y(),
+            radiusX: node.radiusX() * scaleX,
+            radiusY: node.radiusY() * scaleY,
             width: node.width() * scaleX,
             height: node.height() * scaleY,
             rotation: transform.target.rotation(),

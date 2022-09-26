@@ -86,6 +86,7 @@ export const TText = (
               ...shapeProps,
               x: node.x(),
               y: node.y(),
+              height: node.height(),
               width: node.width() * scaleX,
               rotation: transform.target.rotation(),
             });
