@@ -44,10 +44,7 @@ export const Canvas = (props: {
 
   const [contextMenuEvent, setContextMenuEvent] =
     useState<KonvaEventObject<PointerEvent>>();
-  const [dragDistance, setDragDistance] = useState<{
-    x: number | undefined;
-    y: number | undefined;
-  }>({ x: undefined, y: undefined });
+  const [dragDistance, setDragDistance] = useState({ x: 0, y: 0 });
 
   const windowSize = useWindowSize();
   const canvasWidth = width || windowSize.width;
@@ -91,7 +88,6 @@ export const Canvas = (props: {
   const checkDeselect = (
     e: KonvaEventObject<MouseEvent> | KonvaEventObject<TouchEvent>
   ) => {
-    console.log(e);
     if (e.evt.type !== "contextmenu") {
       const clickedOnEmpty = e.target.id() === "bg-rect";
       // deselect when clicked on empty area
@@ -163,8 +159,8 @@ export const Canvas = (props: {
         draggable={draggable}
         onDragMove={(e) => {
           setDragDistance({
-            x: e.target.getStage()?.x(),
-            y: e.target.getStage()?.y(),
+            x: e.target.getStage()?.x() || 0,
+            y: e.target.getStage()?.y() || 0,
           });
         }}
         ref={stage}
@@ -175,8 +171,8 @@ export const Canvas = (props: {
             fill={state.background}
             width={canvasWidth}
             height={canvasHeight}
-            x={-(dragDistance.x || 0)}
-            y={-(dragDistance.y || 0)}
+            x={-dragDistance.x}
+            y={-dragDistance.y}
           />
         </Layer>
         <Layer ref={contentLayer}>
