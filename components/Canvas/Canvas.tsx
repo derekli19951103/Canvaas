@@ -2,7 +2,7 @@ import { Button } from "antd";
 import { useWindowSize } from "hooks/useWindowResize";
 import { KonvaEventObject } from "konva/lib/Node";
 import { useEffect, useRef, useState } from "react";
-import { Layer, Stage } from "react-konva";
+import { Layer, Rect, Stage } from "react-konva";
 import { CanvasData, CanvasItem } from "types/datatypes";
 import { BasicContextMenu } from "./CanvasContextMenu/BasicContextMenu";
 import { TArrow } from "./Shapes/TArrow";
@@ -44,6 +44,10 @@ export const Canvas = (props: {
 
   const [contextMenuEvent, setContextMenuEvent] =
     useState<KonvaEventObject<PointerEvent>>();
+  const [dragDistance, setDragDistance] = useState<{
+    x: number | undefined;
+    y: number | undefined;
+  }>({ x: undefined, y: undefined });
 
   const windowSize = useWindowSize();
   const canvasWidth = width || windowSize.width;
@@ -87,8 +91,9 @@ export const Canvas = (props: {
   const checkDeselect = (
     e: KonvaEventObject<MouseEvent> | KonvaEventObject<TouchEvent>
   ) => {
+    console.log(e);
     if (e.evt.type !== "contextmenu") {
-      const clickedOnEmpty = e.target === e.target.getStage();
+      const clickedOnEmpty = e.target.id() === "bg-rect";
       // deselect when clicked on empty area
       if (clickedOnEmpty) {
         onSelect && onSelect(undefined);
@@ -114,7 +119,6 @@ export const Canvas = (props: {
       onDrop={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(e);
         const files = e.dataTransfer.files;
         onDropFile &&
           onDropFile(files, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
@@ -137,8 +141,16 @@ export const Canvas = (props: {
           event={contextMenuEvent}
           state={state}
           onChange={onChange}
-          onDoneAction={() => {
+          onDoneAction={(actionName) => {
             setContextMenuEvent(undefined);
+            switch (actionName) {
+              case "reset-view":
+                setDragDistance({
+                  x: 0,
+                  y: 0,
+                });
+                break;
+            }
           }}
         />
       )}
@@ -149,9 +161,24 @@ export const Canvas = (props: {
         onTouchStart={checkDeselect}
         onContextMenu={onContextMenu}
         draggable={draggable}
-        style={{ backgroundColor: state.background }}
+        onDragMove={(e) => {
+          setDragDistance({
+            x: e.target.getStage()?.x(),
+            y: e.target.getStage()?.y(),
+          });
+        }}
         ref={stage}
       >
+        <Layer>
+          <Rect
+            id="bg-rect"
+            fill={state.background}
+            width={canvasWidth}
+            height={canvasHeight}
+            x={-(dragDistance.x || 0)}
+            y={-(dragDistance.y || 0)}
+          />
+        </Layer>
         <Layer ref={contentLayer}>
           {state.items.map((i) => {
             switch (i.type) {

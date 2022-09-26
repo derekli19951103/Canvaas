@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 export const BasicContextMenu = (props: {
   event: KonvaEventObject<PointerEvent>;
   state: CanvasData;
-  onDoneAction: () => void;
+  onDoneAction: (actionName: string) => void;
   onChange?: (state: CanvasData) => void;
 }) => {
   const { event, state, onChange, onDoneAction } = props;
@@ -43,7 +43,7 @@ export const BasicContextMenu = (props: {
           });
         }
 
-        onDoneAction();
+        onDoneAction("reset-view");
       },
     },
   ];
@@ -95,7 +95,7 @@ export const BasicContextMenu = (props: {
           }
         }
 
-        onDoneAction();
+        onDoneAction("moveup");
       },
     },
 
@@ -149,7 +149,7 @@ export const BasicContextMenu = (props: {
           }
         }
 
-        onDoneAction();
+        onDoneAction("movedown");
       },
     },
     {
@@ -177,7 +177,7 @@ export const BasicContextMenu = (props: {
             ]),
           });
         }
-        onDoneAction();
+        onDoneAction("duplicate");
       },
     },
     {
@@ -193,7 +193,7 @@ export const BasicContextMenu = (props: {
             ...state,
             items: state.items.filter((_, i) => i !== event.target.index),
           });
-        onDoneAction();
+        onDoneAction("remove");
       },
     },
   ];
