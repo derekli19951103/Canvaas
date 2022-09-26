@@ -47,7 +47,7 @@ const Home: NextPage = () => {
             setState(state);
           }}
           onSelect={setSelectId}
-          onDropFile={async (files) => {
+          onDropFile={async (files, x, y) => {
             const dataUrls = [];
             for (let i = 0; i < files.length; i++) {
               const file = files[i];
@@ -64,7 +64,7 @@ const Home: NextPage = () => {
                   return {
                     id: uuidv4(),
                     type: "image",
-                    data: { src: u as string },
+                    data: { src: u as string, x, y },
                   };
                 })
               ),

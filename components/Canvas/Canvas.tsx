@@ -23,7 +23,7 @@ export const Canvas = (props: {
 
   onChange?: (state: CanvasData) => void;
   onSelect?: (id?: string) => void;
-  onDropFile?: (files: FileList) => void;
+  onDropFile?: (files: FileList, x: number, y: number) => void;
 }) => {
   const {
     state,
@@ -113,8 +113,10 @@ export const Canvas = (props: {
       onDrop={(e) => {
         e.preventDefault();
         e.stopPropagation();
+        console.log(e);
         const files = e.dataTransfer.files;
-        onDropFile && onDropFile(files);
+        onDropFile &&
+          onDropFile(files, e.nativeEvent.offsetX, e.nativeEvent.offsetY);
       }}
       onDragEnter={(e) => {
         e.preventDefault();
