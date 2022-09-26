@@ -18,7 +18,6 @@ export const ZoomSlider = (props: {
       <AiOutlineZoomIn size="20px" className="mb-4" />
       <Slider
         vertical
-        reverse
         value={value}
         onChange={onChange}
         style={{ height: 200 }}
