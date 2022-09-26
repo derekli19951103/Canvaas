@@ -72,6 +72,23 @@ export const RectMenu = (props: {
           size="small"
         />
       </div>
+
+      <div>
+        <div className="text-xs text-gray-400">Opacity:</div>
+        <InputNumber
+          style={{ width: 100 }}
+          value={(value.opacity as number) * 100}
+          onChange={(opacity) => {
+            onChange({
+              ...value,
+              opacity: (opacity || 100) / 100,
+            });
+          }}
+          size="small"
+          addonAfter="%"
+          max={100}
+        />
+      </div>
     </Space>
   );
 };
