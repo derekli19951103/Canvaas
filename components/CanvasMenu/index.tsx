@@ -2,9 +2,11 @@ import { Col, Popover, Row, Space } from "antd";
 import { useMemo } from "react";
 import { CompactPicker } from "react-color";
 import { CgFormatText } from "react-icons/cg";
+import { IoImageOutline } from "react-icons/io5";
 import { CanvasData, CanvasItem } from "types/datatypes";
 import { v4 as uuidv4 } from "uuid";
 import { ColorBlock } from "./ColorBlock";
+import { ExternalImageLinkMenu } from "./ExternalImageLinkMenu";
 import { IconButton } from "./IconButton";
 import { ArrowMenu } from "./ShapeConfigMenus/ArrowMenu";
 import { EllipseMenu } from "./ShapeConfigMenus/EllipseMenu";
@@ -95,6 +97,8 @@ export const CanvasMenu = (props: {
               <span className="ml-2 select-none">Background color</span>
             </IconButton>
           </Popover>
+
+          <ExternalImageLinkMenu state={state} onChange={onChange} />
         </Space>
       </Col>
 

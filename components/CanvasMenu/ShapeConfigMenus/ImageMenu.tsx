@@ -24,7 +24,7 @@ export const ImageMenu = (props: {
         trigger="click"
         placement="bottomLeft"
       >
-        <IconButton style={{ width: 120 }}>
+        <IconButton style={{ width: 130 }}>
           <ColorBlock color={value.stroke as string | undefined} />{" "}
           <span className="ml-2 select-none">Outline color</span>
         </IconButton>
