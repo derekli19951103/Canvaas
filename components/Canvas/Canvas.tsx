@@ -169,10 +169,10 @@ export const Canvas = (props: {
           <Rect
             id="bg-rect"
             fill={state.background}
-            width={canvasWidth}
-            height={canvasHeight}
-            x={-dragDistance.x}
-            y={-dragDistance.y}
+            width={(canvasWidth || 1000) + 400}
+            height={(canvasHeight || 1000) + 400}
+            x={-dragDistance.x - 200}
+            y={-dragDistance.y - 200}
           />
         </Layer>
         <Layer ref={contentLayer}>

@@ -64,7 +64,7 @@ export const TextMenu = (props: {
         onChange={(fontSize) => {
           onChange({
             ...value,
-            fontSize: fontSize as unknown as number,
+            fontSize: fontSize as number,
           });
         }}
       />

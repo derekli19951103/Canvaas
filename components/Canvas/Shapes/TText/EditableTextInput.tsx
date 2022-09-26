@@ -23,7 +23,6 @@ export const EditableTextInput = ({
         onKeyDown={onKeyDown}
         style={{
           width: config.width,
-          height: config.height,
           border: "1px solid #62c5ff",
           padding: "0px",
           margin: "0px",

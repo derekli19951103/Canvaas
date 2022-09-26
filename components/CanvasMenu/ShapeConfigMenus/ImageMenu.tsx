@@ -57,7 +57,7 @@ export const ImageMenu = (props: {
               case "small":
                 onChange({
                   ...value,
-                  shadowColor: "silver",
+                  shadowColor: "rgba(0,0,0,0.3)",
                   shadowOffset: { x: 6, y: 6 },
                   shadowBlur: 10,
                 });
@@ -65,7 +65,7 @@ export const ImageMenu = (props: {
               case "medium":
                 onChange({
                   ...value,
-                  shadowColor: "silver",
+                  shadowColor: "rgba(0,0,0,0.3)",
                   shadowOffset: { x: 12, y: 12 },
                   shadowBlur: 20,
                 });
@@ -73,7 +73,7 @@ export const ImageMenu = (props: {
               case "large":
                 onChange({
                   ...value,
-                  shadowColor: "silver",
+                  shadowColor: "rgba(0,0,0,0.3)",
                   shadowOffset: { x: 24, y: 24 },
                   shadowBlur: 40,
                 });
