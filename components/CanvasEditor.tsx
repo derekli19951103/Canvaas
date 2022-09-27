@@ -7,11 +7,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { CanvasData } from "types/datatypes";
 import { v4 as uuidv4 } from "uuid";
-
-const Canvas = dynamic(
-  () => import("components/Canvas/Canvas").then((mod) => mod.Canvas),
-  { ssr: false }
-);
+import { Canvas } from "./Canvas/Canvas";
 
 export const CanvasEditor = (props: {
   state: CanvasData;
