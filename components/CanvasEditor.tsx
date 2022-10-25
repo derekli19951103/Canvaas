@@ -1,13 +1,13 @@
-import { CanvasMenu } from "components/CanvasMenu";
 import { ZoomSlider } from "components/CanvasMenu/ZoomSlider";
-import { shapes } from "constant/constant";
 import { readFileAsDataUrl } from "helpers/utils";
 import { useWindowSize } from "hooks/useWindowResize";
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ReactToPrint from "react-to-print";
 import { CanvasData } from "types/datatypes";
 import { v4 as uuidv4 } from "uuid";
 import { Canvas } from "./Canvas/Canvas";
+import { CanvasMenu } from "./CanvasMenu";
+import { IconButton } from "./CanvasMenu/IconButton";
 
 export const CanvasEditor = (props: {
   state: CanvasData;
@@ -15,9 +15,12 @@ export const CanvasEditor = (props: {
 }) => {
   const { state, onChange } = props;
 
+  const printRef = useRef(null);
+
   const [history, setHistory] = useState<CanvasData[]>([state]);
   const [selectedId, setSelectId] = useState<string>();
   const [scale, setScale] = useState(100);
+  const [beforePrintScale, setBeforePrintScale] = useState<number>();
 
   const windowSize = useWindowSize();
 
@@ -59,7 +62,25 @@ export const CanvasEditor = (props: {
         state={state}
         onChange={onChangeState}
         selectedId={selectedId}
-      />
+      >
+        <ReactToPrint
+          content={() => printRef?.current}
+          documentTitle={`Moodboard`}
+          pageStyle={`@page { size: landscape; }`}
+          trigger={() => (
+            <IconButton style={{ width: 60 }} className="select-none">
+              Export
+            </IconButton>
+          )}
+          onBeforeGetContent={() => {
+            setBeforePrintScale(scale);
+            setScale(100);
+          }}
+          onAfterPrint={() => {
+            setScale(beforePrintScale!);
+          }}
+        />
+      </CanvasMenu>
 
       <div style={{ paddingTop: 10 }}></div>
       <div>
@@ -76,6 +97,7 @@ export const CanvasEditor = (props: {
           draggable
           onChange={onChangeState}
           onSelect={setSelectId}
+          ref={printRef}
           onDropFile={async (files, x, y) => {
             const dataUrls = [];
             for (let i = 0; i < files.length; i++) {
@@ -97,6 +119,18 @@ export const CanvasEditor = (props: {
                   };
                 })
               ),
+            });
+          }}
+          onDropLink={(imageLink, x, y) => {
+            onChange({
+              ...state,
+              items: state.items.concat([
+                {
+                  id: uuidv4(),
+                  type: "image",
+                  data: { src: imageLink, x, y },
+                },
+              ]),
             });
           }}
         />

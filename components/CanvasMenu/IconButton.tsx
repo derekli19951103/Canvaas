@@ -1,7 +1,7 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes } from 'react'
 
 export const IconButton = (props: HTMLAttributes<HTMLDivElement>) => {
-  const { children, style, className, ...rest } = props;
+  const { children, style, className, ...rest } = props
   return (
     <div
       {...rest}
@@ -10,5 +10,5 @@ export const IconButton = (props: HTMLAttributes<HTMLDivElement>) => {
     >
       {children}
     </div>
-  );
-};
+  )
+}

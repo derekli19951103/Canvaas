@@ -1,22 +1,22 @@
-import { InputNumber, Popover, Space } from "antd";
-import { EllipseConfig } from "konva/lib/shapes/Ellipse";
-import { CompactPicker } from "react-color";
-import { ColorBlock } from "../ColorBlock";
-import { IconButton } from "../IconButton";
+import { InputNumber, Popover, Space } from 'antd'
+import { EllipseConfig } from 'konva/lib/shapes/Ellipse'
+import { SketchPicker } from 'react-color'
+import { ColorBlock } from '../ColorBlock'
+import { IconButton } from '../IconButton'
 
 export const EllipseMenu = (props: {
-  value: EllipseConfig;
-  onChange: (value: EllipseConfig) => void;
+  value: EllipseConfig
+  onChange: (value: EllipseConfig) => void
 }) => {
-  const { value, onChange } = props;
+  const { value, onChange } = props
 
   return (
     <Space>
       <Popover
         content={
-          <CompactPicker
+          <SketchPicker
             onChange={(color) => {
-              onChange({ ...value, fill: color.hex });
+              onChange({ ...value, fill: color.hex })
             }}
             color={value.fill}
           />
@@ -30,9 +30,9 @@ export const EllipseMenu = (props: {
       </Popover>
       <Popover
         content={
-          <CompactPicker
+          <SketchPicker
             onChange={(color) => {
-              onChange({ ...value, stroke: color.hex });
+              onChange({ ...value, stroke: color.hex })
             }}
             color={value.stroke as string | undefined}
           />
@@ -52,8 +52,8 @@ export const EllipseMenu = (props: {
           onChange={(strokeWidth) => {
             onChange({
               ...value,
-              strokeWidth: strokeWidth as number,
-            });
+              strokeWidth: strokeWidth as number
+            })
           }}
           size="small"
         />
@@ -67,8 +67,8 @@ export const EllipseMenu = (props: {
           onChange={(opacity) => {
             onChange({
               ...value,
-              opacity: opacity ? opacity / 100 : undefined,
-            });
+              opacity: opacity ? opacity / 100 : undefined
+            })
           }}
           size="small"
           addonAfter="%"
@@ -76,5 +76,5 @@ export const EllipseMenu = (props: {
         />
       </div>
     </Space>
-  );
-};
+  )
+}

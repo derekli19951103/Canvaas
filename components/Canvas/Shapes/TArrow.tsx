@@ -1,26 +1,26 @@
-import { ArrowConfig } from "konva/lib/shapes/Arrow";
-import { Fragment, useEffect, useRef } from "react";
-import { Arrow, Transformer } from "react-konva";
-import { defaultTransformSettings } from "./settings";
+import { ArrowConfig } from 'konva/lib/shapes/Arrow'
+import { Fragment, useEffect, useRef } from 'react'
+import { Arrow, Transformer } from 'react-konva'
+import { defaultTransformSettings } from './settings'
 
 export const TArrow = (
   props: ArrowConfig & {
-    isSelected: boolean;
-    onChange: (value: ArrowConfig) => void;
-    onSelect: () => void;
+    isSelected: boolean
+    onChange: (value: ArrowConfig) => void
+    onSelect: () => void
   }
 ) => {
-  const { isSelected, onChange, onSelect, ...shapeProps } = props;
-  const shapeRef = useRef<any>(null);
-  const trRef = useRef<any>(null);
+  const { isSelected, onChange, onSelect, ...shapeProps } = props
+  const shapeRef = useRef<any>(null)
+  const trRef = useRef<any>(null)
 
   useEffect(() => {
     if (isSelected && trRef.current) {
       // we need to attach transformer manually
-      trRef.current.nodes([shapeRef.current]);
-      trRef.current.getLayer().batchDraw();
+      trRef.current.nodes([shapeRef.current])
+      trRef.current.getLayer().batchDraw()
     }
-  }, [isSelected]);
+  }, [isSelected])
 
   return (
     <Fragment>
@@ -34,12 +34,12 @@ export const TArrow = (
           onChange({
             ...shapeProps,
             x: e.target.x(),
-            y: e.target.y(),
-          });
+            y: e.target.y()
+          })
         }}
         onTransformEnd={(transform) => {
-          const node = shapeRef.current;
-          const scaleX = transform.target.scaleX();
+          const node = shapeRef.current
+          const scaleX = transform.target.scaleX()
 
           onChange({
             ...shapeProps,
@@ -48,17 +48,17 @@ export const TArrow = (
             height: node.height(),
             width: node.width() * scaleX,
             scaleX,
-            rotation: transform.target.rotation(),
-          });
+            rotation: transform.target.rotation()
+          })
         }}
       />
       {isSelected && (
         <Transformer
           ref={trRef}
           {...defaultTransformSettings}
-          enabledAnchors={["middle-left", "middle-right"]}
+          enabledAnchors={['middle-left', 'middle-right']}
         />
       )}
     </Fragment>
-  );
-};
+  )
+}

@@ -34,8 +34,14 @@ export const TText = (
           onChange({ ...shapeProps, text: e.target.value });
         }}
         onKeyDown={(e) => {
-          if ((e.key === "Enter" && !e.shiftKey) || e.key === "Escape") {
+          if (e.key === "Escape") {
             setIsEditing(false);
+          }
+          if (e.key === "Enter") {
+            onChange({
+              ...shapeProps,
+              height: (shapeProps?.height || 0) + (shapeProps?.fontSize || 20),
+            });
           }
         }}
       />
@@ -57,12 +63,12 @@ export const TText = (
             });
           }}
           onDblClick={() => {
-            if (shapeProps.draggable) {
+            if (isSelected) {
               setIsEditing(true);
             }
           }}
           onDblTap={() => {
-            if (shapeProps.draggable) {
+            if (isSelected) {
               setIsEditing(true);
             }
           }}

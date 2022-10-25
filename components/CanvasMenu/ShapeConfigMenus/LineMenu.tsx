@@ -1,22 +1,22 @@
-import { Button, InputNumber, Popover, Space } from "antd";
-import { LineConfig } from "konva/lib/shapes/Line";
-import { CompactPicker } from "react-color";
-import { ColorBlock } from "../ColorBlock";
-import { IconButton } from "../IconButton";
+import { Button, InputNumber, Popover, Space } from 'antd'
+import { LineConfig } from 'konva/lib/shapes/Line'
+import { SketchPicker } from 'react-color'
+import { ColorBlock } from '../ColorBlock'
+import { IconButton } from '../IconButton'
 
 export const LineMenu = (props: {
-  value: LineConfig;
-  onChange: (value: LineConfig) => void;
+  value: LineConfig
+  onChange: (value: LineConfig) => void
 }) => {
-  const { value, onChange } = props;
+  const { value, onChange } = props
 
   return (
     <Space>
       <Popover
         content={
-          <CompactPicker
+          <SketchPicker
             onChange={(color) => {
-              onChange({ ...value, stroke: color.hex });
+              onChange({ ...value, stroke: color.hex })
             }}
             color={value.fill}
           />
@@ -36,24 +36,24 @@ export const LineMenu = (props: {
           onChange={(strokeWidth) => {
             onChange({
               ...value,
-              strokeWidth: strokeWidth as number,
-            });
+              strokeWidth: strokeWidth as number
+            })
           }}
           size="small"
         />
       </div>
 
       <Button
-        type={value.dash ? "primary" : "default"}
+        type={value.dash ? 'primary' : 'default'}
         onClick={() => {
           onChange({
             ...value,
-            dash: value.dash ? undefined : [5, 5],
-          });
+            dash: value.dash ? undefined : [5, 5]
+          })
         }}
       >
         Dashed
       </Button>
     </Space>
-  );
-};
+  )
+}

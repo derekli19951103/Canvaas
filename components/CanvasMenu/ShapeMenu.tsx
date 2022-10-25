@@ -1,19 +1,19 @@
-import { Popover } from "antd";
-import { AiOutlineLine } from "react-icons/ai";
-import { BiCircle, BiSquare } from "react-icons/bi";
-import { BsArrowDownRight } from "react-icons/bs";
-import { IoShapesOutline } from "react-icons/io5";
-import { CanvasData } from "types/datatypes";
-import { v4 as uuidv4 } from "uuid";
-import { IconButton } from "./IconButton";
+import { Popover } from 'antd'
+import { AiOutlineLine } from 'react-icons/ai'
+import { BiCircle, BiSquare } from 'react-icons/bi'
+import { BsArrowDownRight } from 'react-icons/bs'
+import { IoShapesOutline } from 'react-icons/io5'
+import { CanvasData } from 'types/datatypes'
+import { v4 as uuidv4 } from 'uuid'
+import { IconButton } from './IconButton'
 
 export const ShapeMenu = (props: {
-  state: CanvasData;
-  onChange: (state: CanvasData) => void;
+  state: CanvasData
+  onChange: (state: CanvasData) => void
 }) => {
-  const { state, onChange } = props;
-  const defaultX = 300;
-  const defaultY = 300;
+  const { state, onChange } = props
+  const defaultX = 300
+  const defaultY = 300
 
   return (
     <Popover
@@ -23,28 +23,28 @@ export const ShapeMenu = (props: {
             <BiCircle
               size="40px"
               onClick={() => {
-                const radiusX = 100;
-                const radiusY = 100;
+                const radiusX = 100
+                const radiusY = 100
                 onChange({
                   ...state,
                   items: state.items.concat([
                     {
                       id: uuidv4(),
-                      type: "ellipse",
+                      type: 'ellipse',
                       data: {
                         radiusX: 100,
                         radiusY: 100,
                         x: defaultX,
                         y: defaultY,
-                        fill: "white",
-                        stroke: "black",
+                        fill: 'white',
+                        stroke: 'black',
                         strokeWidth: 2,
                         width: radiusX * 2,
-                        height: radiusY * 2,
-                      },
-                    },
-                  ]),
-                });
+                        height: radiusY * 2
+                      }
+                    }
+                  ])
+                })
               }}
             />
           </IconButton>
@@ -57,19 +57,19 @@ export const ShapeMenu = (props: {
                   items: state.items.concat([
                     {
                       id: uuidv4(),
-                      type: "rect",
+                      type: 'rect',
                       data: {
                         width: 100,
                         height: 100,
                         x: defaultX,
                         y: defaultY,
-                        fill: "white",
-                        stroke: "black",
-                        strokeWidth: 2,
-                      },
-                    },
-                  ]),
-                });
+                        fill: 'white',
+                        stroke: 'black',
+                        strokeWidth: 2
+                      }
+                    }
+                  ])
+                })
               }}
             />
           </IconButton>
@@ -82,17 +82,17 @@ export const ShapeMenu = (props: {
                   items: state.items.concat([
                     {
                       id: uuidv4(),
-                      type: "line",
+                      type: 'line',
                       data: {
                         points: [0, 0, 200, 0],
                         x: defaultX,
                         y: defaultY,
-                        stroke: "black",
-                        strokeWidth: 5,
-                      },
-                    },
-                  ]),
-                });
+                        stroke: 'black',
+                        strokeWidth: 5
+                      }
+                    }
+                  ])
+                })
               }}
             />
           </IconButton>
@@ -105,18 +105,18 @@ export const ShapeMenu = (props: {
                   items: state.items.concat([
                     {
                       id: uuidv4(),
-                      type: "arrow",
+                      type: 'arrow',
                       data: {
                         points: [0, 0, 200, 0],
                         x: defaultX,
                         y: defaultY,
-                        stroke: "black",
+                        stroke: 'black',
                         strokeWidth: 10,
-                        pointerWidth: 10,
-                      },
-                    },
-                  ]),
-                });
+                        pointerWidth: 10
+                      }
+                    }
+                  ])
+                })
               }}
             />
           </IconButton>
@@ -129,5 +129,5 @@ export const ShapeMenu = (props: {
         <IoShapesOutline size="25px" />
       </IconButton>
     </Popover>
-  );
-};
+  )
+}

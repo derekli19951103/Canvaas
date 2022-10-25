@@ -1,19 +1,19 @@
-import { Slider } from "antd";
-import { CSSProperties } from "react";
-import { AiOutlineZoomIn, AiOutlineZoomOut } from "react-icons/ai";
+import { Slider } from 'antd'
+import { CSSProperties } from 'react'
+import { AiOutlineZoomIn, AiOutlineZoomOut } from 'react-icons/ai'
 
 export const ZoomSlider = (props: {
-  value: number;
-  onChange: (value: number) => void;
-  style?: CSSProperties;
-  className?: string;
+  value: number
+  onChange: (value: number) => void
+  style?: CSSProperties
+  className?: string
 }) => {
-  const { value, onChange, style, className } = props;
+  const { value, onChange, style, className } = props
 
   return (
     <div
       className={`p-2 border rounded-full flex flex-col items-center bg-white shadow-lg ${className}`}
-      style={{ position: "absolute", right: 0, zIndex: 1, ...style }}
+      style={{ position: 'absolute', right: 0, zIndex: 1, ...style }}
     >
       <AiOutlineZoomIn size="20px" className="mb-4" />
       <Slider
@@ -27,5 +27,5 @@ export const ZoomSlider = (props: {
       />
       <AiOutlineZoomOut size="20px" className="mt-4" />
     </div>
-  );
-};
+  )
+}
