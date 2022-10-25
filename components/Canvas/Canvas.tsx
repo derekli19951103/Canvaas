@@ -18,8 +18,7 @@ import { TLine } from "./Shapes/TLine";
 import { TRect } from "./Shapes/TRect";
 import { TText } from "./Shapes/TText/TText";
 
-// eslint-disable-next-line react/display-name
-export const Canvas = forwardRef(
+const Canvas = forwardRef(
   (
     props: {
       state: CanvasData;
@@ -310,3 +309,7 @@ export const Canvas = forwardRef(
     );
   }
 );
+
+Canvas.displayName = "CanvasComponent";
+
+export { Canvas };

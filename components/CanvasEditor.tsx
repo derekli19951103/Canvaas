@@ -52,6 +52,7 @@ export const CanvasEditor = (props: {
     window.addEventListener("keydown", handleRevert);
 
     return () => window.removeEventListener("keydown", handleRevert);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
 
   return (

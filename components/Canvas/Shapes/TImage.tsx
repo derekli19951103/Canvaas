@@ -60,7 +60,7 @@ export const TImage = (
 
       onChange({ ...shapeProps, width: image.width, height: image.height });
     }
-  }, [image]);
+  }, [canvasHeight, canvasWidth, image, onChange, shapeProps]);
 
   return (
     <Fragment>
