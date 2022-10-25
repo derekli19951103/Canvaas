@@ -195,7 +195,7 @@ export const Canvas = forwardRef(
           onMouseDown={checkDeselect}
           onTouchStart={checkDeselect}
           onContextMenu={onContextMenu}
-          draggable={draggable}
+          draggable={false}
         >
           <Layer>
             <Rect
