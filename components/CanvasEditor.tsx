@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Canvas } from "./Canvas/Canvas";
 import { IconButton } from "./CanvasMenu/IconButton";
 import { FiShare } from "react-icons/fi";
+import { CanvasMenu } from "./CanvasMenu";
 
 export const CanvasEditor = (props: {
   state: CanvasData;
@@ -93,7 +94,6 @@ export const CanvasEditor = (props: {
           draggable
           onChange={onChangeState}
           onSelect={setSelectId}
-          ref={printRef}
           onDropFile={async (files, x, y) => {
             const dataUrls = [];
             for (let i = 0; i < files.length; i++) {
