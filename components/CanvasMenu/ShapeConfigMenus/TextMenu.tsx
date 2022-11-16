@@ -1,7 +1,11 @@
 import { Button, Popover, Select, Space } from "antd";
+import {
+  fromColorResultToColor,
+  fromColorToColorResult,
+} from "helpers/color.helpers";
 import { TextConfig } from "konva/lib/shapes/Text";
-import { CompactPicker } from "react-color";
 import { ColorBlock } from "../ColorBlock";
+import { DelayedColorPicker } from "../DelayedColorPicker";
 import { IconButton } from "../IconButton";
 
 const FontFamilies = [
@@ -29,15 +33,21 @@ export const TextMenu = (props: {
     <Space>
       <Popover
         content={
-          <CompactPicker
+          <DelayedColorPicker
             onChange={(color) => {
-              onChange({ ...value, fill: color.hex });
+              const c = fromColorResultToColor(color);
+              onChange({
+                ...value,
+                fill: c.rgb,
+                opacity: c.opacity,
+              });
             }}
-            color={value.fill}
+            color={fromColorToColorResult(value.fill, value.opacity)}
           />
         }
         trigger="click"
         placement="bottomLeft"
+        overlayClassName="compact-popover"
       >
         <IconButton>
           <ColorBlock color={value.fill} />
@@ -54,7 +64,7 @@ export const TextMenu = (props: {
             fontFamily: font,
           });
         }}
-        style={{ width: 200 }}
+        style={{ width: 160 }}
       />
 
       <Select
@@ -65,6 +75,7 @@ export const TextMenu = (props: {
           onChange({
             ...value,
             fontSize: fontSize as number,
+            height: fontSize as number,
           });
         }}
       />

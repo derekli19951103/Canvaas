@@ -1,7 +1,12 @@
 import { InputNumber, Popover, Select, Space } from "antd";
+import {
+  fromColorResultToColor,
+  fromColorToColorResult,
+} from "helpers/color.helpers";
 import { ImageConfig } from "konva/lib/shapes/Image";
-import { CompactPicker } from "react-color";
 import { ColorBlock } from "../ColorBlock";
+import { DelayedAlphaPicker } from "../DelayedAlphaPicker";
+import { DelayedColorPicker } from "../DelayedColorPicker";
 import { IconButton } from "../IconButton";
 
 export const ImageMenu = (props: {
@@ -14,15 +19,42 @@ export const ImageMenu = (props: {
     <Space>
       <Popover
         content={
-          <CompactPicker
+          <DelayedAlphaPicker
             onChange={(color) => {
-              onChange({ ...value, stroke: color.hex });
+              const c = fromColorResultToColor(color);
+              onChange({
+                ...value,
+                opacity: c.opacity,
+              });
             }}
-            color={value.stroke as string | undefined}
+            color={fromColorToColorResult(undefined, value.opacity)}
           />
         }
         trigger="click"
         placement="bottomLeft"
+        overlayClassName="compact-popover"
+      >
+        <IconButton style={{ width: 70 }} className="select-none">
+          Opacity
+        </IconButton>
+      </Popover>
+      <Popover
+        content={
+          <DelayedColorPicker
+            onChange={(color) => {
+              const c = fromColorResultToColor(color);
+              onChange({
+                ...value,
+                stroke: c.rgb,
+              });
+            }}
+            color={fromColorToColorResult(value.stroke as string)}
+            disableAlpha
+          />
+        }
+        trigger="click"
+        placement="bottomLeft"
+        overlayClassName="compact-popover"
       >
         <IconButton style={{ width: 130 }}>
           <ColorBlock color={value.stroke as string | undefined} />{" "}
@@ -48,6 +80,7 @@ export const ImageMenu = (props: {
           size="small"
           style={{ width: 100 }}
           options={[
+            { value: "none", label: "None" },
             { value: "small", label: "Small" },
             { value: "medium", label: "Medium" },
             { value: "large", label: "Large" },
@@ -76,6 +109,14 @@ export const ImageMenu = (props: {
                   shadowColor: "rgba(0,0,0,0.3)",
                   shadowOffset: { x: 24, y: 24 },
                   shadowBlur: 40,
+                });
+                break;
+              case "none":
+                onChange({
+                  ...value,
+                  shadowColor: "rgba(0,0,0,0)",
+                  shadowOffset: { x: 0, y: 0 },
+                  shadowBlur: 0,
                 });
                 break;
             }

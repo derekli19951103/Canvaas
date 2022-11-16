@@ -1,17 +1,13 @@
 import { CanvasMenu } from "components/CanvasMenu";
 import { ZoomSlider } from "components/CanvasMenu/ZoomSlider";
-import { shapes } from "constant/constant";
-import { readFileAsDataUrl } from "helpers/utils";
+import { downloadURI, readFileAsDataUrl } from "helpers/utils";
 import { useWindowSize } from "hooks/useWindowResize";
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CanvasData } from "types/datatypes";
 import { v4 as uuidv4 } from "uuid";
-
-const Canvas = dynamic(
-  () => import("components/Canvas/Canvas").then((mod) => mod.Canvas),
-  { ssr: false }
-);
+import { Canvas } from "./Canvas/Canvas";
+import { IconButton } from "./CanvasMenu/IconButton";
+import { FiShare } from "react-icons/fi";
 
 export const CanvasEditor = (props: {
   state: CanvasData;
@@ -19,9 +15,12 @@ export const CanvasEditor = (props: {
 }) => {
   const { state, onChange } = props;
 
+  const printRef = useRef(null);
+
   const [history, setHistory] = useState<CanvasData[]>([state]);
   const [selectedId, setSelectId] = useState<string>();
   const [scale, setScale] = useState(100);
+  const [beforePrintScale, setBeforePrintScale] = useState<number>();
 
   const windowSize = useWindowSize();
 
@@ -63,12 +62,26 @@ export const CanvasEditor = (props: {
         state={state}
         onChange={onChangeState}
         selectedId={selectedId}
-      />
+      >
+        <IconButton
+          style={{ width: 100 }}
+          className="select-none"
+          onClick={() => {
+            if (printRef.current) {
+              downloadURI((printRef.current as any).toDataURL(), "Canvas");
+            }
+          }}
+        >
+          <FiShare size="20px" />
+          <span className="ml-2 select-none"> Export </span>
+        </IconButton>
+      </CanvasMenu>
 
       <div style={{ paddingTop: 10 }}></div>
       <div>
         <ZoomSlider value={scale} onChange={setScale} className="mr-2 mt-2" />
         <Canvas
+          ref={printRef}
           state={state}
           width={windowSize.width}
           height={
@@ -90,7 +103,7 @@ export const CanvasEditor = (props: {
               }
             }
 
-            onChange({
+            onChangeState({
               ...state,
               items: state.items.concat(
                 dataUrls.map((u) => {
@@ -101,6 +114,18 @@ export const CanvasEditor = (props: {
                   };
                 })
               ),
+            });
+          }}
+          onDropLink={(imageLink, x, y) => {
+            onChangeState({
+              ...state,
+              items: state.items.concat([
+                {
+                  id: uuidv4(),
+                  type: "image",
+                  data: { src: imageLink, x, y },
+                },
+              ]),
             });
           }}
         />

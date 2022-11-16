@@ -1,12 +1,11 @@
 import { Col, Popover, Row, Space } from "antd";
-import { useMemo } from "react";
-import { CompactPicker } from "react-color";
+import { ReactNode, useMemo } from "react";
 import { CgFormatText } from "react-icons/cg";
-import { IoImageOutline } from "react-icons/io5";
 import { CanvasData, CanvasItem } from "types/datatypes";
 import { v4 as uuidv4 } from "uuid";
+import { CleanCanvasButton } from "./CleanCanvasButton";
 import { ColorBlock } from "./ColorBlock";
-import { ExternalImageLinkMenu } from "./ExternalImageLinkMenu";
+import { DelayedColorPicker } from "./DelayedColorPicker";
 import { IconButton } from "./IconButton";
 import { ArrowMenu } from "./ShapeConfigMenus/ArrowMenu";
 import { EllipseMenu } from "./ShapeConfigMenus/EllipseMenu";
@@ -20,8 +19,9 @@ export const CanvasMenu = (props: {
   state: CanvasData;
   onChange: (state: CanvasData) => void;
   selectedId?: string;
+  children?: ReactNode;
 }) => {
-  const { selectedId, state, onChange } = props;
+  const { selectedId, state, onChange, children } = props;
 
   const defaultX = 300;
   const defaultY = 300;
@@ -50,7 +50,7 @@ export const CanvasMenu = (props: {
   };
 
   return (
-    <Row justify="space-between">
+    <Row justify="space-between" gutter={[0, 8]}>
       <Col>
         <Space>
           <ShapeMenu state={state} onChange={onChange} />
@@ -68,7 +68,7 @@ export const CanvasMenu = (props: {
                       y: defaultY,
                       fontSize: 20,
                       width: 200,
-                      fill: "blue",
+                      fill: "black",
                       fontStyle: "normal",
                       fontFamily: "Roboto",
                     },
@@ -81,15 +81,17 @@ export const CanvasMenu = (props: {
           </IconButton>
           <Popover
             content={
-              <CompactPicker
+              <DelayedColorPicker
                 onChange={(color) => {
                   onChange({ ...state, background: color.hex });
                 }}
                 color={state.background}
+                disableAlpha
               />
             }
             trigger="click"
             placement="bottomLeft"
+            overlayClassName="compact-popover"
           >
             <IconButton style={{ width: 160 }}>
               <ColorBlock color={state.background} />{" "}
@@ -97,7 +99,11 @@ export const CanvasMenu = (props: {
             </IconButton>
           </Popover>
 
-          <ExternalImageLinkMenu state={state} onChange={onChange} />
+          {/* <ExternalImageLinkMenu state={state} onChange={onChange} /> */}
+
+          <CleanCanvasButton state={state} onChange={onChange} />
+
+          {children}
         </Space>
       </Col>
 

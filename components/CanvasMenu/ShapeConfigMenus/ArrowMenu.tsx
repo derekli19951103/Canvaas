@@ -1,28 +1,41 @@
-import { Button, InputNumber, Popover, Space } from "antd";
-import { ArrowConfig } from "konva/lib/shapes/Arrow";
-import { CompactPicker } from "react-color";
-import { ColorBlock } from "../ColorBlock";
-import { IconButton } from "../IconButton";
+import { Button, InputNumber, Popover, Space } from 'antd'
+import {
+  fromColorResultToColor,
+  fromColorToColorResult
+} from 'helpers/color.helpers'
+import { ArrowConfig } from 'konva/lib/shapes/Arrow'
+import { ColorBlock } from '../ColorBlock'
+import { DelayedColorPicker } from '../DelayedColorPicker'
+import { IconButton } from '../IconButton'
 
 export const ArrowMenu = (props: {
-  value: ArrowConfig;
-  onChange: (value: ArrowConfig) => void;
+  value: ArrowConfig
+  onChange: (value: ArrowConfig) => void
 }) => {
-  const { value, onChange } = props;
+  const { value, onChange } = props
 
   return (
     <Space>
       <Popover
         content={
-          <CompactPicker
+          <DelayedColorPicker
             onChange={(color) => {
-              onChange({ ...value, stroke: color.hex });
+              const c = fromColorResultToColor(color)
+              onChange({
+                ...value,
+                stroke: c.rgb,
+                opacity: c.opacity
+              })
             }}
-            color={value.fill}
+            color={fromColorToColorResult(
+              value.stroke as string,
+              value.opacity
+            )}
           />
         }
         trigger="click"
         placement="bottomLeft"
+        overlayClassName="compact-popover"
       >
         <IconButton>
           <ColorBlock color={value.stroke as string | undefined} />
@@ -36,8 +49,8 @@ export const ArrowMenu = (props: {
           onChange={(strokeWidth) => {
             onChange({
               ...value,
-              strokeWidth: strokeWidth as number,
-            });
+              strokeWidth: strokeWidth as number
+            })
           }}
           size="small"
         />
@@ -50,24 +63,24 @@ export const ArrowMenu = (props: {
           onChange={(pointerWidth) => {
             onChange({
               ...value,
-              pointerWidth: pointerWidth as number,
-            });
+              pointerWidth: pointerWidth as number
+            })
           }}
           size="small"
         />
       </div>
 
       <Button
-        type={value.dash ? "primary" : "default"}
+        type={value.dash ? 'primary' : 'default'}
         onClick={() => {
           onChange({
             ...value,
-            dash: value.dash ? undefined : [5, 5],
-          });
+            dash: value.dash ? undefined : [5, 5]
+          })
         }}
       >
         Dashed
       </Button>
     </Space>
-  );
-};
+  )
+}

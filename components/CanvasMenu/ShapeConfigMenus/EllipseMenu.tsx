@@ -1,7 +1,11 @@
 import { InputNumber, Popover, Space } from "antd";
+import {
+  fromColorResultToColor,
+  fromColorToColorResult,
+} from "helpers/color.helpers";
 import { EllipseConfig } from "konva/lib/shapes/Ellipse";
-import { CompactPicker } from "react-color";
 import { ColorBlock } from "../ColorBlock";
+import { DelayedColorPicker } from "../DelayedColorPicker";
 import { IconButton } from "../IconButton";
 
 export const EllipseMenu = (props: {
@@ -14,15 +18,21 @@ export const EllipseMenu = (props: {
     <Space>
       <Popover
         content={
-          <CompactPicker
+          <DelayedColorPicker
             onChange={(color) => {
-              onChange({ ...value, fill: color.hex });
+              const c = fromColorResultToColor(color);
+              onChange({
+                ...value,
+                fill: c.rgb,
+                opacity: c.opacity,
+              });
             }}
-            color={value.fill}
+            color={fromColorToColorResult(value.fill, value.opacity)}
           />
         }
         trigger="click"
         placement="bottomLeft"
+        overlayClassName="compact-popover"
       >
         <IconButton>
           <ColorBlock color={value.fill} />
@@ -30,18 +40,24 @@ export const EllipseMenu = (props: {
       </Popover>
       <Popover
         content={
-          <CompactPicker
+          <DelayedColorPicker
             onChange={(color) => {
-              onChange({ ...value, stroke: color.hex });
+              const c = fromColorResultToColor(color);
+              onChange({
+                ...value,
+                stroke: c.rgb,
+              });
             }}
-            color={value.stroke as string | undefined}
+            color={fromColorToColorResult(value.stroke as string)}
+            disableAlpha
           />
         }
         trigger="click"
         placement="bottomLeft"
+        overlayClassName="compact-popover"
       >
         <IconButton>
-          <ColorBlock color={value.stroke as string | undefined} />
+          <ColorBlock color={value.stroke as string} />
         </IconButton>
       </Popover>
 
@@ -56,23 +72,6 @@ export const EllipseMenu = (props: {
             });
           }}
           size="small"
-        />
-      </div>
-
-      <div>
-        <div className="text-xs text-gray-400">Opacity:</div>
-        <InputNumber
-          style={{ width: 100 }}
-          value={(value.opacity as number) * 100}
-          onChange={(opacity) => {
-            onChange({
-              ...value,
-              opacity: opacity ? opacity / 100 : undefined,
-            });
-          }}
-          size="small"
-          addonAfter="%"
-          max={100}
         />
       </div>
     </Space>

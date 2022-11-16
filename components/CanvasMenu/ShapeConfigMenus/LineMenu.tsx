@@ -1,7 +1,11 @@
 import { Button, InputNumber, Popover, Space } from "antd";
+import {
+  fromColorResultToColor,
+  fromColorToColorResult,
+} from "helpers/color.helpers";
 import { LineConfig } from "konva/lib/shapes/Line";
-import { CompactPicker } from "react-color";
 import { ColorBlock } from "../ColorBlock";
+import { DelayedColorPicker } from "../DelayedColorPicker";
 import { IconButton } from "../IconButton";
 
 export const LineMenu = (props: {
@@ -14,15 +18,24 @@ export const LineMenu = (props: {
     <Space>
       <Popover
         content={
-          <CompactPicker
+          <DelayedColorPicker
             onChange={(color) => {
-              onChange({ ...value, stroke: color.hex });
+              const c = fromColorResultToColor(color);
+              onChange({
+                ...value,
+                stroke: c.rgb,
+                opacity: c.opacity,
+              });
             }}
-            color={value.fill}
+            color={fromColorToColorResult(
+              value.stroke as string,
+              value.opacity
+            )}
           />
         }
         trigger="click"
         placement="bottomLeft"
+        overlayClassName="compact-popover"
       >
         <IconButton>
           <ColorBlock color={value.stroke as string | undefined} />
