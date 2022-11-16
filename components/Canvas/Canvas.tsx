@@ -4,18 +4,11 @@ import {
   CSSProperties,
   ForwardedRef,
   forwardRef,
-  LegacyRef,
   useEffect,
   useRef,
   useState,
 } from "react";
-import {
-  KonvaNodeComponent,
-  Layer,
-  Rect,
-  Stage,
-  StageProps,
-} from "react-konva";
+import { Layer, Rect, Stage } from "react-konva";
 import { CanvasData, CanvasItem } from "types/datatypes";
 import { BasicContextMenu } from "./CanvasContextMenu/BasicContextMenu";
 import { TArrow } from "./Shapes/TArrow";

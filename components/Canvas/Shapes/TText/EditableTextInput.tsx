@@ -1,16 +1,16 @@
-import { TextConfig } from "konva/lib/shapes/Text";
-import { ChangeEventHandler, KeyboardEventHandler } from "react";
-import { Html } from "react-konva-utils";
-import { DelayedTextArea } from "./DelayedTextArea";
+import { TextConfig } from 'konva/lib/shapes/Text'
+import { ChangeEventHandler, KeyboardEventHandler } from 'react'
+import { Html } from 'react-konva-utils'
+import { DelayedTextArea } from './DelayedTextArea'
 
 export const EditableTextInput = ({
   config,
   onChange,
-  onKeyDown,
+  onKeyDown
 }: {
-  config: TextConfig;
-  onChange: ChangeEventHandler<HTMLTextAreaElement>;
-  onKeyDown: KeyboardEventHandler<HTMLTextAreaElement>;
+  config: TextConfig
+  onChange: ChangeEventHandler<HTMLTextAreaElement>
+  onKeyDown: KeyboardEventHandler<HTMLTextAreaElement>
 }) => {
   return (
     <Html
@@ -25,19 +25,19 @@ export const EditableTextInput = ({
           lineHeight: 1,
           height: config.height,
           width: config.width,
-          border: "1px solid #62c5ff",
-          padding: "0px",
-          margin: "0px",
-          background: "none",
-          outline: "none",
-          resize: "none",
+          border: '1px solid #62c5ff',
+          padding: '0px',
+          margin: '0px',
+          background: 'none',
+          outline: 'none',
+          resize: 'none',
           color: config.fill,
           fontSize: config.fontSize,
           fontFamily: config.fontFamily,
           fontStyle: config.fontStyle,
-          textDecoration: config.textDecoration,
+          textDecoration: config.textDecoration
         }}
       />
     </Html>
-  );
-};
+  )
+}

@@ -4,9 +4,9 @@ export const ColorBlock = (props: { color?: string }) => {
       style={{
         backgroundColor: props.color,
         width: 20,
-        height: 20,
+        height: 20
       }}
       className="rounded-md"
     />
-  );
-};
+  )
+}

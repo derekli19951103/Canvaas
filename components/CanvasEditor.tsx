@@ -1,4 +1,3 @@
-import { CanvasMenu } from "components/CanvasMenu";
 import { ZoomSlider } from "components/CanvasMenu/ZoomSlider";
 import { downloadURI, readFileAsDataUrl } from "helpers/utils";
 import { useWindowSize } from "hooks/useWindowResize";
@@ -52,6 +51,7 @@ export const CanvasEditor = (props: {
     window.addEventListener("keydown", handleRevert);
 
     return () => window.removeEventListener("keydown", handleRevert);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
 
   return (
@@ -93,6 +93,7 @@ export const CanvasEditor = (props: {
           draggable
           onChange={onChangeState}
           onSelect={setSelectId}
+          ref={printRef}
           onDropFile={async (files, x, y) => {
             const dataUrls = [];
             for (let i = 0; i < files.length; i++) {
