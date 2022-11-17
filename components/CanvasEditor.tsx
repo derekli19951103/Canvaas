@@ -74,7 +74,7 @@ export const CanvasEditor = (props: {
           }}
         >
           <FiShare size="20px" />
-          <span className="ml-2 select-none"> Export </span>
+          <span className="ml-2 select-none">Export</span>
         </IconButton>
       </CanvasMenu>
 

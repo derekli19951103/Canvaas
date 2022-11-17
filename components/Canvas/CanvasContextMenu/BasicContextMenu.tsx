@@ -1,72 +1,64 @@
-import { Menu } from 'antd'
-import { KonvaEventObject } from 'konva/lib/Node'
-import { Shape, ShapeConfig } from 'konva/lib/Shape'
-import * as util from 'konva/lib/Util'
-import { AiOutlineCopy, AiOutlineDelete } from 'react-icons/ai'
-import { BsChevronBarDown, BsChevronBarUp } from 'react-icons/bs'
-import { MdOutlineCenterFocusWeak } from 'react-icons/md'
-import { CanvasData } from 'types/datatypes'
-import { v4 as uuidv4 } from 'uuid'
+import { Menu } from "antd";
+import { downloadURI } from "helpers/utils";
+import { KonvaEventObject } from "konva/lib/Node";
+import { Shape, ShapeConfig } from "konva/lib/Shape";
+import * as util from "konva/lib/Util";
+import { AiOutlineCopy, AiOutlineDelete } from "react-icons/ai";
+import { BsChevronBarDown, BsChevronBarUp } from "react-icons/bs";
+import { FiShare } from "react-icons/fi";
+import { CanvasData } from "types/datatypes";
+import { v4 as uuidv4 } from "uuid";
 
 export const BasicContextMenu = (props: {
-  event: KonvaEventObject<PointerEvent>
-  state: CanvasData
-  onDoneAction: (actionName: string) => void
-  onChange?: (state: CanvasData) => void
+  event: KonvaEventObject<PointerEvent>;
+  state: CanvasData;
+  onDoneAction: (actionName: string) => void;
+  onChange?: (state: CanvasData) => void;
 }) => {
-  const { event, state, onChange, onDoneAction } = props
+  const { event, state, onChange, onDoneAction } = props;
 
   const contentLayerChildren = event.target.getLayer()?.children as
     | Shape<ShapeConfig>[]
-    | undefined
+    | undefined;
 
-  const clickedOnEmpty = event.target === event.target.getStage()
+  const clickedOnEmpty = event.target === event.target.getStage();
 
   const generalMenus = [
     {
-      key: 'reset-view',
+      key: "reset-view",
       label: (
         <div className="flex items-center">
-          <MdOutlineCenterFocusWeak className="mr-2" /> Reset Focus
+          <FiShare className="mr-2" /> Export Item
         </div>
       ),
       onClick: () => {
-        const stage = event.target.getStage()
-        if (stage) {
-          stage.position({
-            x: 0,
-            y: 0
-          })
-          stage.offset({
-            x: 0,
-            y: 0
-          })
-        }
+        const target = event.target.toDataURL();
+        downloadURI(target, "Canvas Item");
 
-        onDoneAction('reset-view')
-      }
-    }
-  ]
+        onDoneAction("export-item");
+      },
+    },
+  ];
 
   const itemSpecificMenus = [
     {
-      key: 'moveup',
+      key: "moveup",
       label: (
         <div className="flex items-center">
           <BsChevronBarUp className="mr-2" /> Move Up
         </div>
       ),
       onClick: () => {
-        const objectIndex = event.target.index
-        let mostTopIndex = 0
+        const objectIndex = event.target.index;
+        let mostTopIndex = 0;
 
         contentLayerChildren?.forEach((group) => {
           // do not check intersection with itself
           if (group === event.target) {
-            return
+            return;
           }
-          if (group.className === 'Transformer') {
-            return
+          if (group.className === "Transformer") {
+            return;
           }
           if (
             util.Util.haveIntersection(
@@ -75,51 +67,51 @@ export const BasicContextMenu = (props: {
             )
           ) {
             if (mostTopIndex < group.index) {
-              mostTopIndex = group.index
+              mostTopIndex = group.index;
             }
           }
-        })
+        });
 
         if (objectIndex !== mostTopIndex) {
-          const item = state.items.find((_, i) => i === event.target.index)
+          const item = state.items.find((_, i) => i === event.target.index);
           if (item) {
-            const itemsCopy = state.items.filter((i) => i.id !== item.id)
-            itemsCopy.splice(mostTopIndex + 1, 0, item)
+            const itemsCopy = state.items.filter((i) => i.id !== item.id);
+            itemsCopy.splice(mostTopIndex + 1, 0, item);
 
             if (onChange) {
               onChange({
                 ...state,
-                items: itemsCopy
-              })
+                items: itemsCopy,
+              });
             }
           }
         }
 
-        onDoneAction('moveup')
-      }
+        onDoneAction("moveup");
+      },
     },
 
     {
-      key: 'movedown',
+      key: "movedown",
       label: (
         <div className="flex items-center">
           <BsChevronBarDown className="mr-2" /> Move Down
         </div>
       ),
       onClick: () => {
-        const objectIndex = event.target.index
+        const objectIndex = event.target.index;
 
         if (contentLayerChildren) {
-          let mostBottomIndex = contentLayerChildren.length
+          let mostBottomIndex = contentLayerChildren.length;
 
           for (let i = 0; i < contentLayerChildren.length; i++) {
-            const group = contentLayerChildren[i]
+            const group = contentLayerChildren[i];
             // do not check intersection with itself
             if (group === event.target) {
-              continue
+              continue;
             }
-            if (group.className === 'Transformer') {
-              continue
+            if (group.className === "Transformer") {
+              continue;
             }
             if (
               util.Util.haveIntersection(
@@ -128,39 +120,39 @@ export const BasicContextMenu = (props: {
               )
             ) {
               if (mostBottomIndex > group.index) {
-                mostBottomIndex = group.index
+                mostBottomIndex = group.index;
               }
             }
           }
 
           if (objectIndex !== mostBottomIndex) {
-            const item = state.items.find((_, i) => i === event.target.index)
+            const item = state.items.find((_, i) => i === event.target.index);
             if (item) {
-              const itemsCopy = state.items.filter((i) => i.id !== item.id)
-              itemsCopy.splice(mostBottomIndex, 0, item)
+              const itemsCopy = state.items.filter((i) => i.id !== item.id);
+              itemsCopy.splice(mostBottomIndex, 0, item);
 
               if (onChange) {
                 onChange({
                   ...state,
-                  items: itemsCopy
-                })
+                  items: itemsCopy,
+                });
               }
             }
           }
         }
 
-        onDoneAction('movedown')
-      }
+        onDoneAction("movedown");
+      },
     },
     {
-      key: 'duplicate',
+      key: "duplicate",
       label: (
         <div className="flex items-center">
           <AiOutlineCopy className="mr-2" /> Duplicate
         </div>
       ),
       onClick: () => {
-        const duplicate = state.items.find((_, i) => i === event.target.index)
+        const duplicate = state.items.find((_, i) => i === event.target.index);
         if (duplicate && onChange) {
           onChange({
             ...state,
@@ -171,17 +163,17 @@ export const BasicContextMenu = (props: {
                 data: {
                   ...duplicate.data,
                   x: duplicate.data.x + 20,
-                  y: duplicate.data.y + 20
-                }
-              }
-            ])
-          })
+                  y: duplicate.data.y + 20,
+                },
+              },
+            ]),
+          });
         }
-        onDoneAction('duplicate')
-      }
+        onDoneAction("duplicate");
+      },
     },
     {
-      key: 'remove',
+      key: "remove",
       label: (
         <div className="flex items-center">
           <AiOutlineDelete className="mr-2" /> Remove
@@ -191,20 +183,20 @@ export const BasicContextMenu = (props: {
         onChange &&
           onChange({
             ...state,
-            items: state.items.filter((_, i) => i !== event.target.index)
-          })
-        onDoneAction('remove')
-      }
-    }
-  ]
+            items: state.items.filter((_, i) => i !== event.target.index),
+          });
+        onDoneAction("remove");
+      },
+    },
+  ];
 
   return (
     <div
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: event.evt.y,
         left: event.evt.x,
-        zIndex: 1
+        zIndex: 1,
       }}
     >
       <Menu
@@ -216,5 +208,5 @@ export const BasicContextMenu = (props: {
         }
       />
     </div>
-  )
-}
+  );
+};
