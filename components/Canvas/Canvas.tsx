@@ -58,9 +58,8 @@ const Canvas = forwardRef(
     const contentLayer = useRef<any>(null);
     const backgroundLayer = useRef<any>(null);
 
-    const [contextMenuEvent, setContextMenuEvent] = useState<
-      KonvaEventObject<PointerEvent>
-    >();
+    const [contextMenuEvent, setContextMenuEvent] =
+      useState<KonvaEventObject<PointerEvent>>();
 
     const windowSize = useWindowSize();
     const canvasWidth = width || windowSize.width || 1000;
@@ -179,7 +178,7 @@ const Canvas = forwardRef(
         }}
         style={{ width: canvasWidth, height: canvasHeight, ...style }}
       >
-        {contextMenuEvent && editable && (
+        {editable && contextMenuEvent && (
           <BasicContextMenu
             event={contextMenuEvent}
             state={state}

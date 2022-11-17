@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { message } from "antd";
 import { ImageConfig } from "konva/lib/shapes/Image";
 import { Fragment, useEffect, useRef } from "react";
 import { Image, Transformer } from "react-konva";
@@ -61,7 +60,7 @@ export const TImage = (
 
       onChange({ ...shapeProps, width: image.width, height: image.height });
     }
-  }, [image]);
+  }, [canvasHeight, canvasWidth, image, onChange, shapeProps]);
 
   return (
     <Fragment>
